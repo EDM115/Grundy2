@@ -3,10 +3,8 @@ import java.util.Arrays;
 import java.util.Collections;
 
 /**
- * Jeu de Grundy2
- * Ce programme ne contient que les méthodes permettant de tester jouerGagnant()
- * Cette version est brute sans aucune amélioration
- *
+ * Grundy2 Game
+ * This class adds a Game vs AI function and efficiency calculation
  * @author EDM115, nathan-basol
  */
 
@@ -14,22 +12,22 @@ class Grundy2RecBruteEff {
     long cpt;
 
     /**
-     * Méthode principal du programme
+     * Principal function of the class
      */
     void principal() {
         /*
         testJouerGagnant();
-		testPremier();
-		testSuivant();
-		testEstGangnanteEfficacite();
+        testPremier();
+        testSuivant();
         */
+        testEstGangnanteEfficacite();
         partieJoueurContreOrdinateur();
     }
-	
+    
     /**
-     * Joue le coup gagnant s'il existe
-     * @param jeu plateau de jeu
-     * @return vrai s'il y a un coup gagnant, faux sinon
+     * Plays the winning move if it exists
+     * @param jeu board game
+     * @return true if there's a winning move, false otherwise
      */
     boolean jouerGagnant(ArrayList<Integer> jeu) {
         boolean gagnant = false;
@@ -39,7 +37,6 @@ class Grundy2RecBruteEff {
         } else {
             ArrayList<Integer> essai = new ArrayList<Integer>();
             int ligne = premier(jeu, essai);
-			// mise en oeuvre de la règle numéro2 : Une situation (ou position) est dite gagnante pour la machine (ou le joueur, peu importe), s'il existe AU MOINS UNE décomposition (c-à-d UNE action qui consiste à décomposer un tas en 2 tas inégaux) perdante pour l'adversaire.
             while (ligne != -1 && !gagnant) {
                 if (estPerdante(essai)) {
                     jeu.clear();
@@ -52,54 +49,48 @@ class Grundy2RecBruteEff {
                 }
             }
         }
-		
+        
         return gagnant;
     }
-	
-	/**
-     * Méthode RECURSIVE qui indique si la configuration (du jeu actuel ou jeu d'essai) est perdante
-     * @param jeu plateau de jeu actuel (l'état du jeu à un certain moment au cours de la partie)
-     * @return vrai si la configuration (du jeu) est perdante, faux sinon
+    
+    /**
+     * RECURSIVE method that indicates if the configuration (of the current game or test game) is losing
+     * @param jeu current game board (the state of the game at some point during the game)
+     * @return true if the configuration (of the game) is losing, false otherwise
      */
     boolean estPerdante(ArrayList<Integer> jeu) {
-        boolean ret = true; // par défaut la configuration est perdante
-		
+        boolean ret = true;
+        
         if (jeu == null) {
             System.err.println("estPerdante(): le paramètre jeu est null");
         } else {
-			// si il n'y a plus que des tas de 1 ou 2 allumettes dans le plateau de jeu alors la situation est forcément perdante (ret=true) = FIN de la récursivité
             if (!estPossible(jeu)) {
-				ret = true;
+                ret = true;
             } else {
-				// création d'un jeu d'essais qui va examiner toutes les décompositions possibles à partir de jeu
-                ArrayList<Integer> essai = new ArrayList<Integer>(); // size = 0
-				// toute première décomposition : enlever 1 allumette au premier tas qui possède au moins 3 allumettes, ligne = -1 signifie qu'il n'y a plus de tas d'au moins 3 allumettes
+                ArrayList<Integer> essai = new ArrayList<Integer>();
                 int ligne = premier(jeu, essai);
                 while ((ligne != -1) && ret) {
-					cpt++;
-					// mise en oeuvre de la règle numéro1 : Une situation (ou position) est dite perdante pour la machine (ou le joueur, peu importe) si et seulement si TOUTES ses décompositions possibles (c-à-d TOUTES les actions qui consistent à décomposer un tas en 2 tas inégaux) sont TOUTES gagnantes pour l'adversaire. Si UNE SEULE décomposition (à partir du jeu) est perdante (pour l'adversaire) alors la configuration n'EST PAS perdante. Ici l'appel à "estPerdante" est RECURSIF.
+                    cpt++;
                     if (estPerdante(essai) == true) {
                         ret = false;
                     } else {
-						// génère la configuration d'essai suivante (c'est-à-dire UNE décomposition possible) à partir du jeu, si ligne = -1 il n'y a plus de décomposition possible
                         ligne = suivant(jeu, essai, ligne);
                     }
                 }
             }
         }
-		
+        
         return ret;
     }
 
-	/**
-     * Indique si la configuration est gagnante
-	 * Méthode qui appelle simplement "estPerdante"
-     * @param jeu plateau de jeu
-     * @return vrai si la configuration est gagnante, faux sinon
+    /**
+     * Indicates if the configuration is winning
+     * @param jeu game board
+     * @return true if the configuration is winning, false otherwise
      */
     boolean estGagnante(ArrayList<Integer> jeu) {
         boolean ret = false;
-		
+        
         if (jeu == null) {
             System.err.println("estGagnante(): le paramètre jeu est null");
         } else {
@@ -110,7 +101,7 @@ class Grundy2RecBruteEff {
     }
 
     /**
-     * Tests succincts de la méthode joueurGagnant()
+     * Short tests of the jouerGagnant() method
      */
     void testJouerGagnant() {
         System.out.println();
@@ -125,17 +116,14 @@ class Grundy2RecBruteEff {
     }
 
     /**
-     * Test d'un cas de la méthode jouerGagnant()
-	 * @param jeu le plateau de jeu
-	 * @param resJeu le plateau de jeu après avoir joué gagnant
-	 * @param res le résultat attendu par jouerGagnant
+     * Testing a case of the jouerGagnant() method
+     * @param jeu game board
+     * @param resJeu the game board after playing gagnant
+     * @param res the result awaited by jouerGagnant
      */
     void testCasJouerGagnant(ArrayList<Integer> jeu, ArrayList<Integer> resJeu, boolean res) {
-        // Arrange
         System.out.print("jouerGagnant (" + jeu.toString() + ") : ");
-        // Act
         boolean resExec = jouerGagnant(jeu);
-        // Assert
         System.out.print(jeu.toString() + " " + resExec + " : ");
         if (jeu.equals(resJeu) && res == resExec) {
             System.out.println("OK\n");
@@ -145,13 +133,12 @@ class Grundy2RecBruteEff {
     }	
 
     /**
-     * Divise en deux tas les alumettes d'une ligne de jeu (1 ligne = 1 tas)
-     * @param jeu tableau des alumettes par ligne
-     * @param ligne ligne (tas) sur laquelle les alumettes doivent être séparées
-     * @param nb nombre d'alumettes RETIREE de la ligne après séparation
+     * Divide the matches of a line of play into two heaps (1 line = 1 heap)
+     * @param jeu table of matches by line
+     * @param ligne line (heap) on which matches should be separated
+     * @param nb number of matches REMOVED from line after separation
      */
     void enlever(ArrayList<Integer> jeu, int ligne, int nb) {
-		// traitement des erreurs
         if (jeu == null) {
             System.err.println("enlever() : le paramètre jeu est null");
         } else if (ligne >= jeu.size()) {
@@ -162,18 +149,16 @@ class Grundy2RecBruteEff {
             System.err.println("enlever() : le nb d'allumettes à retirer est trop petit");
         } else if (2 * nb == jeu.get(ligne)) {
             System.err.println("enlever() : le nb d'allumettes à retirer est la moitié");
-        } else {
-			// nouveau tas (case) ajouté au jeu (nécessairement en fin de tableau), ce nouveau tas contient le nbre d'allumettes retirées (nb) du tas à séparer			
+        } else {		
             jeu.add(nb);
-			// le tas restant avec "nb" allumettes en moins
             jeu.set(ligne, jeu.get(ligne) - nb);
         }
     }
 
     /**
-     * Teste s'il est possible de séparer un des tas
-     * @param jeu plateau de jeu
-     * @return vrai s'il existe au moins un tas de 3 allumettes ou plus, faux sinon
+     * Tests if it's possible to separate a heap
+     * @param jeu game board
+     * @return true if there is at least a heap of 3 or more matches, false otherwise
      */
     boolean estPossible(ArrayList<Integer> jeu) {
         boolean ret = false;
@@ -194,15 +179,15 @@ class Grundy2RecBruteEff {
     }
 
     /**
-     * Crée une toute première configuration d'essai à partir du jeu
-     * @param jeu plateau de jeu
-     * @param jeuEssai nouvelle configuration du jeu
-     * @return le numéro du tas divisé en deux ou (-1) si il n'y a pas de tas d'au moins 3 allumettes
+     * Create a very first trial configuration from the game
+     * @param jeu game board
+     * @param jeuEssai new game configuration
+     * @return the number of the heap divided in half or -1 if there is no heap of at least 3 matches
      */
     int premier(ArrayList<Integer> jeu, ArrayList<Integer> jeuEssai) {
-        int numTas = -1; // pas de tas à séparer par défaut
-		int i;
-		
+        int numTas = -1;
+        int i;
+        
         if (jeu == null) {
             System.err.println("premier(): le paramètre jeu est null");
         } else if (!estPossible((jeu)) ){
@@ -210,36 +195,31 @@ class Grundy2RecBruteEff {
         } else if (jeuEssai == null) {
             System.err.println("estPossible(): le paramètre jeuEssai est null");
         } else {
-            // avant la copie du jeu dans jeuEssai il y a un reset de jeuEssai 
             jeuEssai.clear();
             i = 0;
-			// recopie case par case, jeuEssai est le même que le jeu au départ
             while (i < jeu.size()) {
                 jeuEssai.add(jeu.get(i));
                 i = i + 1;
             }
             i = 0;
-			// rechercher un tas d'allumettes d'au moins 3 allumettes dans le jeu, sinon numTas = -1
-			boolean trouve = false;
+            boolean trouve = false;
             while ((i < jeu.size()) && !trouve) {
-				// si on trouve un tas d'au moins 3 allumettes
-				if (jeuEssai.get(i) >= 3) {
-					trouve = true;
-					numTas = i;
-				}
-				i = i + 1;
+                if (jeuEssai.get(i) >= 3) {
+                    trouve = true;
+                    numTas = i;
+                }
+                i = i + 1;
             }
-			// sépare le tas (case numTas) en un tas d'UNE SEULE allumette à la fin du tableau, le tas en case numTas a diminué d'une allumette (retrait d'une allumette), jeuEssai est le plateau de jeu qui fait apparaître cette séparation
             if (numTas != -1) {
                 enlever(jeuEssai, numTas, 1);
             }
         }
-		
+        
         return numTas;
     }
 
     /**
-     * Tests succincts de la méthode premier()
+     * Short tests of the premier() method
      */
     void testPremier() {
         System.out.println();
@@ -256,18 +236,15 @@ class Grundy2RecBruteEff {
     }
 
     /**
-     * Test un cas de la méthode testPremier
-	 * @param jeu le plateau de jeu
-	 * @param ligne le numéro du tas séparé en premier
-	 * @param res le plateau de jeu après une première séparation
+     * Test a case of the testPremier method
+     * @param jeu game board
+     * @param ligne the number of the heap separated first
+     * @param res game board after the first separation
      */
     void testCasPremier(ArrayList<Integer> jeu, int ligne, ArrayList<Integer> res) {
-        // Arrange
         System.out.print("premier (" + jeu.toString() + ") : ");
         ArrayList<Integer> jeuEssai = new ArrayList<Integer>();
-        // Act
         int noLigne = premier(jeu, jeuEssai);
-        // Assert
         System.out.println("\nnoLigne = " + noLigne + " jeuEssai = " + jeuEssai.toString());
         if (jeuEssai.equals(res) && noLigne == ligne) {
             System.out.println("OK\n");
@@ -277,18 +254,16 @@ class Grundy2RecBruteEff {
     }
 
     /**
-     * Génère la configuration d'essai suivante (c'est-à-dire UNE décomposition possible)
-     * @param jeu plateau de jeu
-     * @param jeuEssai configuration d'essai du jeu après séparation
-     * @param ligne le numéro du tas qui est le dernier à avoir été séparé
-     * @return le numéro du tas divisé en deux pour la nouvelle configuration, -1 si plus aucune décomposition n'est possible
+     * Generates the following test setup (i.e. ONE possible decomposition)
+     * @param jeu game board
+     * @param jeuEssai play test configuration after separation
+     * @param ligne the number of the heap which is the last to have been separated
+     * @return the number of the heap divided in two for the new configuration, -1 if no more decomposition is possible
      */
     int suivant(ArrayList<Integer> jeu, ArrayList<Integer> jeuEssai, int ligne) {
-        // System.out.println("suivant(" + jeu.toString() + ", " +jeuEssai.toString() + ", " + ligne + ") = ");
-		int numTas = -1; // par défaut il n'y a plus de décomposition possible
+        int numTas = -1;
         int i = 0;
 
-		// traitement des erreurs
         if (jeu == null) {
             System.err.println("suivant(): le paramètre jeu est null");
         } else if (jeuEssai == null) {
@@ -296,41 +271,36 @@ class Grundy2RecBruteEff {
         } else if (ligne >= jeu.size()) {
             System.err.println("estPossible(): le paramètre ligne est trop grand");
         } else {
-			int nbAllumEnLigne = jeuEssai.get(ligne);
-			int nbAllDernCase = jeuEssai.get(jeuEssai.size() - 1);
-			// si sur la même ligne (passée en paramètre) on peut encore retirer des allumettes, c-à-d si l'écart entre le nombre d'allumettes sur cette ligne et le nombre d'allumettes en fin de tableau est > 2, alors on retire encore 1 allumette sur cette ligne et on ajoute 1 allumette en dernière case		
+            int nbAllumEnLigne = jeuEssai.get(ligne);
+            int nbAllDernCase = jeuEssai.get(jeuEssai.size() - 1);	
             if ((nbAllumEnLigne - nbAllDernCase) > 2) {
                 jeuEssai.set(ligne, (nbAllumEnLigne - 1));
                 jeuEssai.set(jeuEssai.size() - 1, (nbAllDernCase + 1));
                 numTas = ligne;
             } else {
-			    // sinon il faut examiner le tas (ligne) suivant du jeu pour éventuellement le décomposer, on recrée une nouvelle configuration d'essai identique au plateau de jeu, copie du jeu dans JeuEssai
                 jeuEssai.clear();
                 for (i = 0; i < jeu.size(); i++) {
                     jeuEssai.add(jeu.get(i));
                 }
                 boolean separation = false;
-                i = ligne + 1; // tas suivant
-				// si il y a encore un tas et qu'il contient au moins 3 allumettes alors on effectue une première séparation en enlevant 1 allumette
+                i = ligne + 1;
                 while (i < jeuEssai.size() && !separation) {
-					// le tas doit faire minimum 3 allumettes
                     if (jeu.get(i) > 2) {
                         separation = true;
-						// on commence par enlever 1 allumette à ce tas
                         enlever(jeuEssai, i, 1);
-						numTas = i;
+                        numTas = i;
                     } else {
                         i = i + 1;
                     }
                 }				
             }
         }
-		
+        
         return numTas;
     }
 
     /**
-     * Tests succincts de la méthode suivant()
+     * Short tests of the suivant() method
      */
     void testSuivant() {
         System.out.println();
@@ -376,19 +346,16 @@ class Grundy2RecBruteEff {
     }
 
     /**
-     * Test un cas de la méthode suivant
-	 * @param jeu le plateau de jeu
-	 * @param jeuEssai le plateau de jeu obtenu après avoir séparé un tas
-	 * @param ligne le numéro du tas qui est le dernier à avoir été séparé
-	 * @param resJeu est le jeuEssai attendu après séparation
-	 * @param resLigne est le numéro attendu du tas qui est séparé
+     * Test a case of the suivant method
+     * @param jeu game board
+     * @param jeuEssai the game board obtained after separating a heap
+     * @param ligne the number of the heap which is the last to have been separated
+     * @param resJeu is the jeuEssai expected after separation
+     * @param resLigne is the expected number of the heap that is separated
      */
     void testCasSuivant(ArrayList<Integer> jeu, ArrayList<Integer> jeuEssai, int ligne, ArrayList<Integer> resJeu, int resLigne) {
-        // Arrange
         System.out.print("suivant (" + jeu.toString() + ", " + jeuEssai.toString() + ", " + ligne + ") : ");
-        // Act
         int noLigne = suivant(jeu, jeuEssai, ligne);
-        // Assert
         System.out.println("\nnoLigne = " + noLigne + " jeuEssai = " + jeuEssai.toString());
         if (jeuEssai.equals(resJeu) && noLigne == resLigne) {
             System.out.println("OK\n");
@@ -397,119 +364,109 @@ class Grundy2RecBruteEff {
         }
     }
 
-	void joueurContreMachine() {
-		
-	}
-
-	/**
-	 * Remplit un jeu avec nb nombres aléatoires 
-	 * @param jeu le jeu à remplir
-	 * @param nb le nombre de nombres à ajouter
-	 */
-	void remplirAleatoire(ArrayList<Integer> jeu, int nb) {
-		for (int i = 0; i < nb; i++) {
-			int random = (int)(Math.random() * 10);
-			System.out.println("random = " + random);
-            jeu.add(random);
-		}
-	}
+///////////////////////////////////////////////////////////////////////////
 
     /**
-     * Teste l'efficacité de la méthode rechercheSeq
+     * Fills a game with nb random numbers
+     * @param jeu the game to fill
+     * @param nb the number of numbers to add
+     */
+    void remplirAleatoire(ArrayList<Integer> jeu, int nb) {
+        for (int i = 0; i < nb; i++) {
+            int random = (int)(Math.random() * 10);
+            jeu.add(random);
+        }
+    }
+
+    /**
+     * Testing the efficiency of the method estGagnante
      */
     void testEstGangnanteEfficacite() {
         System.out.println();
         System.out.println("*** Efficacité de la méthode estGagnante");
-        
-        ArrayList<Integer> jeu;
-        int n;
-        boolean indice;
+        int n = 3;
         long t1, t2, diffT;
-
-        n = 3;
-
+        
         for (int i = 1; i <= 22; i++) {
-            jeu = new ArrayList<Integer>();
-			jeu.add(n);
+            ArrayList<Integer> jeu = new ArrayList<Integer>();
+            jeu.add(n);
             cpt = 0;
             t1 = System.nanoTime();
-            indice = estGagnante(jeu);
+            boolean indice = estGagnante(jeu);
             t2 = System.nanoTime();
             diffT = (t2 - t1); 
-
-            System.out.println("Pour n = " + n + ", le temps est : " + (diffT * 0.000000001) + " seconde");
+            System.out.println("Pour n = " + n + ", le temps est : " + diffT + " nanosecondes");
             System.out.println("Pour n = " + n + ", le cpt est : " + cpt);
             System.out.println();
-
-            n = n + 1;
-			jeu.clear();
+            n++;
+            jeu.clear();
         }
     }
 
-///////////////////////////////////////////////////////////////////////////
-
     /**
-    * creer un tableau avec des allumettes 
-    * @param nb nombre d'allumettes
-    * @return un tableau avec le nombre d'allumettes
+    * Creates an array with matches
+    * @param nb number of matches
+    * @return the final array
     **/
     char[] creerTableauAllumettes(int nb) {
-        char[] ret = new char[nb];
+        char[] ret = new char[nb * 3];
         int i = 0;
+
         while (i < ret.length) {
-            ret[i] = '|';
-            i = i + 1;
+            ret[i] = ' ';
+            ret[i + 1] = '|';
+            ret[i + 2] = ' ';
+            i += 3;
         }
+
         return ret;
     }
-    
-   
-    
+
     /**
-    * affiche les différents tableaux d'allumettes
-    * @param tab tableau d'entiers
+    * Prints the different matches arrays
+    * @param tab game board
     **/
     void creerEtAfficherLesTableaux(ArrayList<Integer> tab) {
         int i = 0;
         int ligne = 0;
+
         while (i < tab.size()) {
             if (tab.get(i) >= 1) {
                 char[] creerTab = creerTableauAllumettes(tab.get(i));
-                System.out.print(ligne + " : ");
+                System.out.print(ligne + " :");
                 System.out.println(creerTab);
-                ligne = ligne + 1;
+                ligne++;
             }
-            i = i + 1;
+            i++;
         }
     }
-    
+
     /**
-    * teste si le joueur donne un bon numéro de ligne
-    * @param tab tableau d'entiers
-    * @param ligne la ligne que le joueur séléctionne
-    * @return vrai ssi la ligne est bonne
+    * Tests if the player gave the right line number
+    * @param tab game board
+    * @param ligne the line selected by the player
+    * @return true only if the line is correct
     **/
     boolean bonChoixLigne(ArrayList<Integer> tab, int ligne) {
         boolean ret = true;
-        if (ligne < 0 || ligne >= tab.size()) {
+
+        if (ligne < 0 || ligne >= tab.size() || tab.get(ligne) <= 2) {
             ret = false;
-        } else {
-            if (tab.get(ligne) <= 2) {
-                ret = false;
-            }
         }
+
         return ret;
     }
-    
+
     /**
-    * teste si le tableau peut etre séparé par le nombre qu'a rentré le joueur
-    * @param tab tableau d'entiers
-    * @param ligne la ligne que le joueur selectionne
-    * @param separer le nombre d'allumettes que je joueur veux séparer
-    * @return vrai ssi c'est separable
+     * Tests if the array can be separated by the number the player entered
+    * @param tab game board
+    * @param ligne the line selected by the player
+    * @param separer the number the player entered
+    * @return true if the array can be separated by the number the player entered
     **/
     boolean bonneSeparation(ArrayList<Integer> tab, int ligne, int separer) {
         boolean ret = false;
+
         if (bonChoixLigne(tab, ligne)) {
             if (tab.get(ligne) % 2 == 0) {
                 if ((separer > 0) && (separer < tab.get(ligne)) && (separer != (tab.get(ligne) / 2))) {
@@ -521,27 +478,30 @@ class Grundy2RecBruteEff {
                 }
             }
         }
+
         return ret;
     }
-    
+
     /**
-    * renvoie l'indice du premier zero d'un tableau (le tableau comporte forcémment un zero)
-    * @param tab tableau d'entiers 
+    * Returns the next empty spot in the array
+    * @param tab game board
     **/
     int premierZero(ArrayList<Integer> tab) {
         int ret = tab.size() + 1;
+
         return ret;
     }
-    
+
     /**
-    * separe une ligne d'un tableau
-    * @param tab tableau d'entiers
-    * @param ligne la ligne que le joueur séléctionne
-    * @param separer le nombre d'allumettes que le joueur veut séparer
-    * @return tableau avec la séparation faite
+    * Separates the array at a given line
+    * @param tab game board
+    * @param ligne the line selected by the player
+    * @param separer the number of matches the player entered
+    * @return the array with the separated line
     **/
     ArrayList<Integer> separation(ArrayList<Integer> tab, int ligne, int separer) {
         int tmp;
+
         if (bonneSeparation(tab, ligne, separer)) {
             try {
                 if (tab.get(ligne + 1) == 0) {
@@ -563,89 +523,97 @@ class Grundy2RecBruteEff {
                 tab.add(ligne, separer);
             }
         }
+
         return tab;
     }
 
     /**
-    * determine qui va jouer
-    * @param joueur numéro qui est soit paire ou impaire
-    * @param joueur1 nom du premier joueur
-    * @param joueur2 nom du deuxième joueur 
-    * @return renvoie le nom du joueur1 si le numéro est paire et inversement
+    * Determine who is going to play
+    * @param joueur even or odd number
+    * @param joueur1 name of the first player
+    * @param joueur2 name of the second player
+    * @return returns the name of the player1 if the number is even, returns the name of the player2 if the number is odd
     **/
     String quiVaJouer(int joueur, String joueur1, String joueur2) {
         String ret;
+
         if (joueur % 2 == 0) {
             ret = joueur1;
         } else {
             ret = joueur2;
         }
+
         return ret;
     }
-    
+
     /**
-    * demande au joueur le nombre d'allumettes de départ tant que le nombre d'allumettes saisis est incorrecte
-    * @return un tableau d'entier avec l'indice 0 initialisé 
+    * Asks the player for the starting number of matches as long as the number of matches entered is incorrect
+    * @return an array of integers with index 0 initialized
     **/
     ArrayList<Integer> demandeNombreAllumettes() {
         int initialisation = SimpleInput.getInt("Nombre d'allumettes : "); 
+
         while (initialisation <= 2) {
             initialisation = SimpleInput.getInt("Nombre d'allumettes : "); 
         }
         ArrayList<Integer> ret = new ArrayList<Integer>();
         ret.add(0, initialisation);
+
         return ret;
     }
-    
+
     /**
-    * vérifie si un sul tas est séparable
-    * @param tab tableau d'entiers
-    * @return vrai ssi un seul tas est séparabme 
+    * Checks if an heap is separable
+    * @param tab game board
+    * @return true only if one heap is separable
     **/
     boolean unSeulTasSeparable(ArrayList<Integer> tab) {
-        boolean ret;
+        boolean ret = false;
         int compteur = 0;
         int i = 0;
+
         while (i < tab.size()) {
             if (tab.get(i) > 2) {
-                compteur = compteur + 1;
+                compteur++;
             }
-            i = i + 1;
+            i++;
         }
         if (compteur == 1) {
             ret = true;
-        } else {
-            ret = false;
         }
+
         return ret;
     }
-    
+
     /**
-    * cherche l'indice du seul tas séparable
-    * @param tab tableau d'entiers avec un seul tas séparable 
-    * @return l'indice du seul tas séparable
+    * Searches for the index of the only separable heap
+    * @param tab game board with the only separable heap
+    * @return the index of that heap
     **/
     int indiceDuSeulTasSeparable(ArrayList<Integer> tab){
         int ret = 0;
         int i = 0;
         boolean sort = false;
+
         while ((i < tab.size()) && !sort) {
             if (tab.get(i) > 2) {
                 ret = i;
                 sort = true;
             }
-            i = i + 1;
+            i++;
         }
+
         return ret;
     }
-    
+
     /**
-    * demande au joueur de rentrer une ligne valide
-    * @param tab tableau d'entiers
-    * @return numéro de ligne valide rentré par le joueur
+    * Asks the player for a valid line as long as the line entered is incorrect
+    * @param tab game board
+    * @return valid line entered by the player
     **/
     int demandeLigne(ArrayList<Integer> tab) {
         int ret;
+
         if (!unSeulTasSeparable(tab)) {
             ret = SimpleInput.getInt("Ligne : ");
             while (!bonChoixLigne(tab, ret)) {
@@ -654,168 +622,156 @@ class Grundy2RecBruteEff {
         } else {
             ret = indiceDuSeulTasSeparable(tab);
         }
+
         return ret;
     }
-    
+
     /**
-    * demande au joueur de rentrer une separation valide
-    * @param tab tableau d'entiers
-    * @param ligne ligne valide
-    * @return une séparation valide rentrée par le joueur
+    * Ask the player for a valid number of matches to separate as long as the number entered is incorrect
+    * @param tab game board
+    * @param ligne valid line
+    * @return valid separation entered by the player
     **/
     int demandeSeparer(ArrayList<Integer> tab, int ligne) {
         int ret = SimpleInput.getInt("Nombre d'allumettes à séparer : ");
+
         while (!bonneSeparation(tab, ligne, ret)) {
             ret = SimpleInput.getInt("Nombre d'allumettes à séparer : ");
         }
+
         return ret;
     }
-    
+
     /**
-    * teste si un tableau ne contient que des nombres inférieurs ou égaux à 2
-    * @param tab tableau d'entiers
-    * @return vrai ssi un tableau ne contient qeu des nombres inférieurs ou égaux à 2
+     * Tests if an array contains only numbers less than or equal to 2
+    * @param tab game board
+    * @return true only if the array contains only numbers less than or equal to 2
     **/
     boolean finPartie(ArrayList<Integer> tab) {
         boolean ret = false;
         int i = 0;
         boolean sort = true;
+
         while (i < tab.size()) {
             if (tab.get(i) > 2) {
                 sort = false;
             } 
-            i = i + 1;
+            i++;
         }
-        if (!sort) {
-            ret = false;
-        } else {
+        if (sort) {
             ret = true;
         }
+
         return ret;
     }
-    
+
     /**
-    * affiche une ligne
+    * Prints a line
     **/
     void ligneDeSeparation() {
         System.out.println();
         System.out.println("-----------------");
         System.out.println();
     }
-    
+
     /**
-    * demande au joueur qui joue en premier entre lui et l'ordinateur 
+    * Asks who plays first
     **/
     int choixPremierJoueur() {
         System.out.println("Premier à jouer");
         System.out.println("- 0 le joueur");
         System.out.println("- 1 l'ordinateur");
         int ret = SimpleInput.getInt("qui est le premier à jouer : ");
+
         while ((ret > 1) || (ret < 0)) {
             ret = SimpleInput.getInt("qui est le premier à jouer : ");
         }
+
         return ret;
     }
-    
-   
+
     /**
-    * l'ordinateur rentre aléatoirement une séparation entre 0 et le nombre d'allumettes de la ligne choisie
-    * @param tab tableau d'entiers
-    * @param ligne ligne valide
-    * @return une séparation valide rentrée par l'ordinateur
+     * The AI chooses a random number between 0 and the number of matches in the heap chosen
+    * @param tab game board 
+    * @param ligne valid line
+    * @return a valid separation chosen by the AI
     **/
     int demandeSeparerOrdinateur(ArrayList<Integer> tab, int ligne) {
-        int ret = (int) (Math.random() * (tab.get(ligne)));
+        int ret = (int)(Math.random() * (tab.get(ligne)));
+
         while (!bonneSeparation(tab, ligne, ret)) {
-            ret = (int) (Math.random() * (tab.get(ligne)));
+            ret = (int)(Math.random() * (tab.get(ligne)));
         }
+
         return ret;
     }
 
     /**
-    * l'ordinateur choisir un nombre au hasard entre 0 et la taille du tableau
-    * @param tab tableau d'entiers
-    * @return numéro de ligne valide rentré par l'ordinateur
+     * The AI choose a random number between 0 and the size of the array
+    * @param tab game board
+    * @return valid line number chosen by the AI
     **/
     int demandeLigneOrdinateur(ArrayList<Integer> tab) {
-        int ret = (int) (Math.random() * (tab.size()));
+        int ret = (int)(Math.random() * (tab.size()));
+
         while (!bonChoixLigne(tab, ret)) {
-            ret = (int) (Math.random() * (tab.size()));
+            ret = (int)(Math.random() * (tab.size()));
         }
+
         return ret;
     }
-   
 
     /**
-    * joue une partie joueur contre ordinateur
+    * Plays a Player vs AI game
     **/
     void partieJoueurContreOrdinateur() {
         // Initialisation du tableau d'allumettes
         ArrayList<Integer> tabAllumettes = demandeNombreAllumettes();
-       
         // Demande le nom du joueur + initilalisation du nom de l'ordinateur
         String joueur1 = SimpleInput.getString("Nom du joueur : ");
-        String ordi = "Ordi";
+        String ordi = "IA";
         ligneDeSeparation();
-        
         // Demande qui joue en premier
         int joueur = choixPremierJoueur();
         String quiJoue = quiVaJouer(joueur, joueur1, ordi);
         ligneDeSeparation();
-        
         // Affichage de la ligne 0 contenant un certains nombre d'allumettes
         creerEtAfficherLesTableaux(tabAllumettes);
-        
         // La partie continue tant que l'on peut séparer les allumettes
         while (!finPartie(tabAllumettes)) {
-            
             // Détermine qui va jouer cette manche et affichage du nom
             quiJoue = quiVaJouer(joueur, joueur1, ordi);
             ligneDeSeparation();
             System.out.println("Tour du joueur : " + quiJoue);
-            
             // Initialisation des variables ligne et separer
             int ligne;
             int separer;
-            
             // Cas de quand le joueur 1 joue
             if ((joueur % 2) == 0) {
-            
                 // Demande la ligne au joueur
                 ligne = demandeLigne(tabAllumettes);
-           
                 // Demande le nombre d'allumettes qu'il veut séparer
                 separer = demandeSeparer(tabAllumettes, ligne);
-
                 separation(tabAllumettes, ligne, separer);
                 ligneDeSeparation();
-            
             // Cas de quand l'ordinateur joue
             } else {
-            
                 if (jouerGagnant(tabAllumettes)) {
-
+                    ;
                 } else {
                     // l'ordinateur choisi une ligne au hasard
                     ligne = demandeLigneOrdinateur(tabAllumettes);
-               
                     // l'ordinateur choisi une séparation au hasard
                     separer = demandeSeparerOrdinateur(tabAllumettes, ligne);
-
                     separation(tabAllumettes, ligne, separer);
                 }
                 ligneDeSeparation();
-                
             }
-            
-           
             // On affiche les tableaux d'allumettes
             creerEtAfficherLesTableaux(tabAllumettes);
-            
             // On incrémente la variable joueur pour changer de joueur
-            joueur = joueur + 1;
+            joueur++;
         }
-        
         // Affichage du nom du gagnant
         ligneDeSeparation();
         System.out.println(quiJoue + " a gagné !");
