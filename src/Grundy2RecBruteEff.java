@@ -718,7 +718,32 @@ class Grundy2RecBruteEff {
     }
     
    
+    /**
+    * l'ordinateur rentre aléatoirement une séparation entre 0 et le nombre d'allumettes de la ligne choisie
+    * @param tab tableau d'entiers
+    * @param ligne ligne valide
+    * @return une séparation valide rentrée par l'ordinateur
+    **/
+    int demandeSeparerOrdinateur(ArrayList<Integer> tab, int ligne) {
+        int ret = (int) (Math.random() * (tab.get(ligne)));
+        while (!bonneSeparation(tab, ligne, ret)) {
+            ret = (int) (Math.random() * (tab.get(ligne)));
+        }
+        return ret;
+    }
 
+    /**
+    * l'ordinateur choisir un nombre au hasard entre 0 et la taille du tableau
+    * @param tab tableau d'entiers
+    * @return numéro de ligne valide rentré par l'ordinateur
+    **/
+    int demandeLigneOrdinateur(ArrayList<Integer> tab) {
+        int ret = (int) (Math.random() * (tab.size()));
+        while (!bonChoixLigne(tab, ret)) {
+            ret = (int) (Math.random() * (tab.size()));
+        }
+        return ret;
+    }
    
 
     /**
@@ -768,10 +793,21 @@ class Grundy2RecBruteEff {
             // Cas de quand l'ordinateur joue
             } else {
             
-                jouerGagnant(tabAllumettes);
+                if (jouerGagnant(tabAllumettes)) {
+
+                } else {
+                    // l'ordinateur choisi une ligne au hasard
+                    ligne = demandeLigneOrdinateur(tabAllumettes);
+               
+                    // l'ordinateur choisi une séparation au hasard
+                    separer = demandeSeparerOrdinateur(tabAllumettes, ligne);
+
+                    separation(tabAllumettes, ligne, separer);
+                }
+                ligneDeSeparation();
+                
             }
             
-            ligneDeSeparation();
            
             // On affiche les tableaux d'allumettes
             creerEtAfficherLesTableaux(tabAllumettes);
