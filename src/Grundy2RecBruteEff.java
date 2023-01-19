@@ -17,13 +17,15 @@ class Grundy2RecBruteEff {
      * Méthode principal du programme
      */
     void principal() {
+        testEstGangnanteEfficacite();
         /*
         testJouerGagnant();
 		testPremier();
 		testSuivant();
-		testEstGangnanteEfficacite();
-        */
+		
+        
         partieJoueurContreOrdinateur();
+        */
     }
 	
     /**
@@ -437,7 +439,7 @@ class Grundy2RecBruteEff {
             t2 = System.nanoTime();
             diffT = (t2 - t1); 
 
-            System.out.println("Pour n = " + n + ", le temps est : " + (diffT * 0.000000001) + " seconde");
+            System.out.println("Pour n = " + n + ", le temps est : " + diffT + " ns");
             System.out.println("Pour n = " + n + ", le cpt est : " + cpt);
             System.out.println();
 
