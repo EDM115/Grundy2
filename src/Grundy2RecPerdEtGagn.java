@@ -81,8 +81,6 @@ class Grundy2RecPerdEtGagn {
 				ret = true;
 			} else if (estConnuePerdante(jeu)) {
 				ret = true;
-			} else if (estConnueGagnante(jeu)) {
-				ret = false;
 			} else {
 				ArrayList<Integer> essai = new ArrayList<Integer>();
 				int ligne = premier(jeu, essai);
@@ -115,6 +113,8 @@ class Grundy2RecPerdEtGagn {
 		
 		if (jeu == null) {
 			System.err.println("estGagnante(): le paramètre jeu est null");
+		} else if (estConnueGagnante(jeu)) {
+			ret = true;
 		} else {
 			ret = !estPerdante(jeu);
 		}
@@ -422,6 +422,8 @@ class Grundy2RecPerdEtGagn {
 			System.out.println();
 			n++;
 			jeu.clear();
+			posGagnantes.clear();
+			posPerdantes.clear();
 		}
 	}
 
