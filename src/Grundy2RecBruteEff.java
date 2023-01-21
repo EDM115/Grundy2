@@ -383,16 +383,16 @@ class Grundy2RecBruteEff {
 		testPremierZero();
 		testSeparation();
 		testQuiVaJouer();
-		testDemandeNombreAllumettes();
 		testUnSeulTasSeparable();
 		testIndiceDuSeulTasSeparable();
-		testDemandeLigne();
-		testDemandeSeparer();
 		testFinPartie();
 		testLigneDeSeparation();
-		testChoixPremierJoueur();
 		testDemandeLigneOrdinateur();
-		testDemandeSeparerOrdinateur();
+		testDemandeSeparerOrdinateur();;
+		testChoixPremierJoueur();
+		testDemandeLigne();
+		testDemandeSeparer();
+		testDemandeNombreAllumettes();
 	}
 
 	/**
