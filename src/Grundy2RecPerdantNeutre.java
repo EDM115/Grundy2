@@ -4,10 +4,10 @@ import java.util.Collections;
 
 /**
  * Grundy2 Game
- * This class adds storage of winning heaps
+ * This class simplifies the game so the heaps that are loosing are only counted once
  * @author EDM115, nathan-basol
  */
-class Grundy2RecPerdEtGagn {
+class Grundy2RecPerdantNeutre {
 
 	/**
 	 * Global variable used to mesure the efficiency
@@ -33,7 +33,7 @@ class Grundy2RecPerdEtGagn {
 		testPremier();
 		testSuivant();
 		*/
-		testEstGagnanteEfficacite();
+		//testEstGagnanteEfficacite();
 		partieJoueurContreOrdinateur();
 	}
 	
@@ -77,19 +77,20 @@ class Grundy2RecPerdEtGagn {
 		if (jeu == null) {
 			System.err.println("estPerdante(): le paramètre jeu est null");
 		} else {
-			if (!estPossible(jeu)) {
+			ArrayList<Integer> newJeu = supprimeLesTasPerdants(jeu);
+			if (!estPossible(newJeu)) {
 				ret = true;
-			} else if (estConnuePerdante(jeu)) {
+			} else if (estConnuePerdante(newJeu)) {
 				ret = true;
 			} else {
 				ArrayList<Integer> essai = new ArrayList<Integer>();
-				int ligne = premier(jeu, essai);
+				int ligne = premier(newJeu, essai);
 				while ((ligne != -1) && ret) {
 					cpt++;
 					if (estPerdante(essai)) {
 						ret = false;
 					} else {
-						ligne = suivant(jeu, essai, ligne);
+						ligne = suivant(newJeu, essai, ligne);
 					}
 				}
 				if (ret) {
@@ -409,7 +410,7 @@ class Grundy2RecPerdEtGagn {
 		int n = 3;
 		long t1, t2, diffT;
 		
-		for (int i = 1; i <= 29; i++) {
+		for (int i = 1; i <= 33; i++) {
 			ArrayList<Integer> jeu = new ArrayList<Integer>();
 			jeu.add(n);
 			cpt = 0;
@@ -433,14 +434,13 @@ class Grundy2RecPerdEtGagn {
 	* @return the final array
 	**/
 	char[] creerTableauAllumettes(int nb) {
-		char[] ret = new char[nb * 3];
+		char[] ret = new char[nb * 2];
 		int i = 0;
 
 		while (i < ret.length) {
 			ret[i] = ' ';
 			ret[i + 1] = '|';
-			ret[i + 2] = ' ';
-			i += 3;
+			i += 2;
 		}
 
 		return ret;
@@ -892,4 +892,23 @@ class Grundy2RecPerdEtGagn {
 
         return ret;
     }
+
+	/**
+	 * Deletes all losing heaps (excepting the first one) as they don't influe on the final score
+	 * @param jeu game board
+	 */
+	ArrayList<Integer> supprimeLesTasPerdants(ArrayList<Integer> jeu) {
+		ArrayList<Integer> newJeu = new ArrayList<Integer>(jeu);
+
+		for (int i = 1; i < jeu.size(); i++) {
+			ArrayList<Integer> test = new ArrayList<Integer>();
+			test.add(jeu.get(i));
+			boolean perdant = estConnuePerdante(test);
+			if (perdant) {
+				newJeu.remove(test.get(0));
+			}
+		}
+
+		return newJeu;
+	}
 }
