@@ -72,35 +72,37 @@ class Grundy2RecPerdEtGagn {
 	 * @return true if the configuration (of the game) is losing, false otherwise
 	 */
 	boolean estPerdante(ArrayList<Integer> jeu) {
-		boolean ret = true;
+		boolean ret = true; // par défaut la configuration est perdante
 		
-		if (jeu == null) {
-			System.err.println("estPerdante(): le paramètre jeu est null");
-		} else {
-			if (!estPossible(jeu)) {
+        if (jeu == null) {
+            System.err.println("estPerdante(): le paramètre jeu est null");
+        } else {
+            if ( !estPossible(jeu) ) {
+                ret = true;
+            } else if ( estConnuePerdante ( jeu ) ) {
 				ret = true;
-			} else if (estConnuePerdante(jeu)) {
-				ret = true;
-			} else {
-				ArrayList<Integer> essai = new ArrayList<Integer>();
-				int ligne = premier(jeu, essai);
-				while ((ligne != -1) && ret) {
-					cpt++;
-					if (estPerdante(essai)) {
-						ret = false;
-					} else {
-						ligne = suivant(jeu, essai, ligne);
-					}
-				}
-				if (ret) {
-					posPerdantes.add(normalise(essai));
-				} else {
-					posGagnantes.add(normalise(essai));
-				}
+			} else if ( estConnueGagnante(jeu)){
+				ret = false;
 			}
-		}
-		
-		return ret;
+			else {
+                ArrayList<Integer> essai = new ArrayList<Integer>();
+                int ligne = premier(jeu, essai);
+                while ( (ligne != -1) && ret) {
+                    cpt++;
+                    if (estPerdante(essai) == true) {					
+                        ret = false;	
+                    } else {
+                        ligne = suivant(jeu, essai, ligne);
+                    }
+                }
+				if (ret){
+                    posPerdantes.add(normalise(jeu));
+                }else{
+                    posGagnantes.add(normalise(jeu));
+                }
+            }
+        }
+        return ret;
 	}
 
 	/**
@@ -113,9 +115,8 @@ class Grundy2RecPerdEtGagn {
 		
 		if (jeu == null) {
 			System.err.println("estGagnante(): le paramètre jeu est null");
-		} else if (estConnueGagnante(jeu)) {
-			ret = true;
-		} else {
+		} 
+		else {
 			ret = !estPerdante(jeu);
 		}
 
@@ -409,7 +410,7 @@ class Grundy2RecPerdEtGagn {
 		int n = 3;
 		long t1, t2, diffT;
 		
-		for (int i = 1; i <= 29; i++) {
+		for (int i = 1; i <= 45; i++) {
 			ArrayList<Integer> jeu = new ArrayList<Integer>();
 			jeu.add(n);
 			cpt = 0;
