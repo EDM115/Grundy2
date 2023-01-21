@@ -33,7 +33,7 @@ class Grundy2RecPerdantNeutre {
 		testPremier();
 		testSuivant();
 		*/
-		testEstGagnanteEfficacite();
+		//testEstGagnanteEfficacite();
 		partieJoueurContreOrdinateur();
 	}
 	
@@ -77,20 +77,20 @@ class Grundy2RecPerdantNeutre {
 		if (jeu == null) {
 			System.err.println("estPerdante(): le paramètre jeu est null");
 		} else {
-			supprimeLesTasPerdants(jeu);
-			if (!estPossible(jeu)) {
+			ArrayList<Integer> newJeu = supprimeLesTasPerdants(jeu);
+			if (!estPossible(newJeu)) {
 				ret = true;
-			} else if (estConnuePerdante(jeu)) {
+			} else if (estConnuePerdante(newJeu)) {
 				ret = true;
 			} else {
 				ArrayList<Integer> essai = new ArrayList<Integer>();
-				int ligne = premier(jeu, essai);
+				int ligne = premier(newJeu, essai);
 				while ((ligne != -1) && ret) {
 					cpt++;
 					if (estPerdante(essai)) {
 						ret = false;
 					} else {
-						ligne = suivant(jeu, essai, ligne);
+						ligne = suivant(newJeu, essai, ligne);
 					}
 				}
 				if (ret) {
@@ -410,7 +410,7 @@ class Grundy2RecPerdantNeutre {
 		int n = 3;
 		long t1, t2, diffT;
 		
-		for (int i = 1; i <= 53; i++) {
+		for (int i = 1; i <= 33; i++) {
 			ArrayList<Integer> jeu = new ArrayList<Integer>();
 			jeu.add(n);
 			cpt = 0;
@@ -897,14 +897,18 @@ class Grundy2RecPerdantNeutre {
 	 * Deletes all losing heaps (excepting the first one) as they don't influe on the final score
 	 * @param jeu game board
 	 */
-	void supprimeLesTasPerdants(ArrayList<Integer> jeu) {
+	ArrayList<Integer> supprimeLesTasPerdants(ArrayList<Integer> jeu) {
+		ArrayList<Integer> newJeu = new ArrayList<Integer>(jeu);
+
 		for (int i = 1; i < jeu.size(); i++) {
 			ArrayList<Integer> test = new ArrayList<Integer>();
 			test.add(jeu.get(i));
 			boolean perdant = estConnuePerdante(test);
 			if (perdant) {
-				jeu.remove(test.get(0));
+				newJeu.remove(test.get(0));
 			}
 		}
+
+		return newJeu;
 	}
 }

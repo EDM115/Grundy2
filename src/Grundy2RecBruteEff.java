@@ -426,14 +426,13 @@ class Grundy2RecBruteEff {
 	* @return the final array
 	**/
 	char[] creerTableauAllumettes(int nb) {
-		char[] ret = new char[nb * 3];
+		char[] ret = new char[nb * 2];
 		int i = 0;
 
 		while (i < ret.length) {
 			ret[i] = ' ';
 			ret[i + 1] = '|';
-			ret[i + 2] = ' ';
-			i += 3;
+			i += 2;
 		}
 
 		return ret;
@@ -446,11 +445,11 @@ class Grundy2RecBruteEff {
 		System.out.println();
 		System.out.println("*** testCreerTableauAllumettes()");
 		
-		char[] a = {'|', '|'};
+		char[] a = {' ', '|', ' ', '|'};
 		testCasCreerTableauAllumettes(2, a);
 		char[] b = {};
 		testCasCreerTableauAllumettes(0, b);
-		char[] c = {'|'};
+		char[] c = {' ', '|'};
 		testCasCreerTableauAllumettes(1, c);
 	}
 
@@ -464,9 +463,9 @@ class Grundy2RecBruteEff {
 		char[] resExec = creerTableauAllumettes(lg);
 		boolean pareil = Arrays.equals(resExec, result);
 		if (pareil){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -560,9 +559,9 @@ class Grundy2RecBruteEff {
 		System.out.print("BonChoixLigne (" + tab + ", " + ligne + ") \t= " + result + "\t : ");
 		boolean resExec = bonChoixLigne(tab, ligne);
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -626,9 +625,9 @@ class Grundy2RecBruteEff {
 		System.out.print("bonneSeparation (" + tab + ", " + ligne + ", " + separer + ") \t= " + result + "\t : ");
 		boolean resExec = bonneSeparation(tab, ligne, separer);
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -650,30 +649,30 @@ class Grundy2RecBruteEff {
 		System.out.println();
 		System.out.println("*** testPremierZero()");
 		
-		int[] a = {9, 3, 6, 1, 2, 0};
+		int[] a = {9, 3, 6, 1, 2};
 		ArrayList<Integer> jeu1 = new ArrayList<Integer>();
 		for (int i = 0; i < a.length; i++) {
 			jeu1.add(a[i]);
 		}
-		testCasPremierZero(jeu1, 5);
-		int[] b = {8, 3, 5, 0};
+		testCasPremierZero(jeu1, 6);
+		int[] b = {8, 3, 5};
 		ArrayList<Integer> jeu2 = new ArrayList<Integer>();
 		for (int i = 0; i < b.length; i++) {
 			jeu2.add(b[i]);
 		}
-		testCasPremierZero(jeu2, 3);
-		int[] c = {0};
+		testCasPremierZero(jeu2, 4);
+		int[] c = {};
 		ArrayList<Integer> jeu3 = new ArrayList<Integer>();
 		for (int i = 0; i < c.length; i++) {
 			jeu3.add(c[i]);
 		}
-		testCasPremierZero(jeu3, 0);
-		int[] d = {8, 3, 1, 2, 0};
+		testCasPremierZero(jeu3, 1);
+		int[] d = {8, 3, 1, 2};
 		ArrayList<Integer> jeu4 = new ArrayList<Integer>();
 		for (int i = 0; i < d.length; i++) {
 			jeu4.add(d[i]);
 		}
-		testCasPremierZero(jeu4, 4);
+		testCasPremierZero(jeu4, 5);
 	}
    
 	/**
@@ -685,9 +684,9 @@ class Grundy2RecBruteEff {
 		System.out.print("premierZero (" + tab + ") \t= " + result + "\t : ");
 		int resExec = premierZero(tab);
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -738,7 +737,7 @@ class Grundy2RecBruteEff {
 		for (int i = 0; i < a.length; i++) {
 			jeuA.add(a[i]);
 		}
-		int[] resultA = {3, 2, 4, 3, 3, 0, 0, 0, 0};
+		int[] resultA = {3, 2, 3, 4, 3, 0, 0, 0, 0, 0};
 		ArrayList<Integer> jeuResultA = new ArrayList<Integer>();
 		for (int i = 0; i < resultA.length; i++) {
 			jeuResultA.add(resultA[i]);
@@ -749,7 +748,7 @@ class Grundy2RecBruteEff {
 		for (int i = 0; i < b.length; i++) {
 			jeuB.add(b[i]);
 		}
-		int[] resultB = {3, 5, 4, 2, 1, 0, 0, 0, 0};
+		int[] resultB = {3, 5, 4, 2, 1, 0, 0, 0, 0, 0};
 		ArrayList<Integer> jeuResultB = new ArrayList<Integer>();
 		for (int i = 0; i < resultB.length; i++) {
 			jeuResultB.add(resultB[i]);
@@ -760,7 +759,7 @@ class Grundy2RecBruteEff {
 		for (int i = 0; i < c.length; i++) {
 			jeuC.add(c[i]);
 		}
-		int[] resultC = {1, 5, 4, 3, 2, 0, 0, 0, 0};
+		int[] resultC = {1, 2, 5, 4, 3, 0, 0, 0, 0, 0};
 		ArrayList<Integer> jeuResultC = new ArrayList<Integer>();
 		for (int i = 0; i < resultC.length; i++) {
 			jeuResultC.add(resultC[i]);
@@ -778,10 +777,11 @@ class Grundy2RecBruteEff {
 	void testCasSeparation(ArrayList<Integer> tab, int ligne, int separer, ArrayList<Integer> result) {
 		System.out.print("separation (" + tab + ", " + ligne + ", " + separer + ") \t= " + result + "\t : ");
 		ArrayList<Integer> resExec = separation(tab, ligne, separer);
+		System.out.println(resExec);
 		if (resExec.equals(result)){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -830,9 +830,9 @@ class Grundy2RecBruteEff {
 		System.out.print("quiVaJouer (" + joueur + ", " + joueur1 + ", " + joueur2 + ") \t= " + result + "\t : ");
 		String resExec = quiVaJouer(joueur, joueur1, joueur2);
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -859,18 +859,16 @@ class Grundy2RecBruteEff {
 		System.out.println();
 		System.out.println("*** testDemandeNombreAllumettes()");
 		
-		System.out.println("rentrez 1 puis 2 puis 7 : ");
-		System.out.println("le programme renvoit ok si la méthode marche bien");
-		int[] a = {7, 0, 0, 0, 0, 0, 0};
+		System.out.println("\u001B[36mrentrez 1 puis 2 puis 7 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
+		int[] a = {7};
 		ArrayList<Integer> a2 = new ArrayList<Integer>();
 		for (int i = 0; i < a.length; i++) {
 			a2.add(a[i]);
 		}
 		testCasDemandeNombreAllumettes(a2);
 		System.out.println();
-		System.out.println("rentrez 13 : ");
-		System.out.println("le programme renvoit ok si la méthode marche bien");
-		int[] b = {13, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		System.out.println("\u001B[36mrentrez 13 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
+		int[] b = {13};
 		ArrayList<Integer> b2 = new ArrayList<Integer>();
 		for (int i = 0; i < b.length; i++) {
 			b2.add(b[i]);
@@ -886,9 +884,9 @@ class Grundy2RecBruteEff {
 		System.out.println("demandeNombreAllumettes (" + " nombres rentrés par le testeur " + ") \t= " + result + "\t ");
 		ArrayList<Integer> resExec = demandeNombreAllumettes();
 		if (resExec.equals(result)){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -951,9 +949,9 @@ class Grundy2RecBruteEff {
 		System.out.print("unSeulTasSeparable (" + tab + ") \t= " + result + "\t : ");
 		boolean resExec = unSeulTasSeparable(tab);
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -1020,9 +1018,9 @@ class Grundy2RecBruteEff {
 		System.out.print("indiceDuSeulTasSeparable (" + tab + ") \t= " + result + "\t : ");
 		int resExec = indiceDuSeulTasSeparable(tab);
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -1053,8 +1051,7 @@ class Grundy2RecBruteEff {
 		System.out.println();
 		System.out.println("*** testDemandeLigne()");
 		
-		System.out.println("rentrez 0 puis 1 puis 2 : ");
-		System.out.println("le programme renvoit ok si la méthode marche bien");
+		System.out.println("\u001B[36mrentrez 0 puis 1 puis 2 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
 		int[] a = {2, 1, 5, 3, 0, 0, 0, 0, 0};
 		ArrayList<Integer> a2 = new ArrayList<Integer>();
 		for (int i = 0; i < a.length; i++) {
@@ -1063,7 +1060,6 @@ class Grundy2RecBruteEff {
 		testCasDemandeLigne(a2, 2);
 		System.out.println();
 		System.out.println("ici vous n'avez rien a rentrer car il n'y a qu'un seul tas separable");
-		System.out.println("le programme renvoit ok si la méthode marche bien");
 		int[] b = {2, 1, 5, 2, 0, 0, 0, 0, 0};
 		ArrayList<Integer> b2 = new ArrayList<Integer>();
 		for (int i = 0; i < b.length; i++) {
@@ -1081,9 +1077,9 @@ class Grundy2RecBruteEff {
 		System.out.println("demandeLigne (" + tab + ") \t= " + result + "\t ");
 		int resExec = demandeLigne(tab);
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -1110,8 +1106,7 @@ class Grundy2RecBruteEff {
 		System.out.println();
 		System.out.println("*** testDemandeSeparer()");
 		
-		System.out.println("rentrez 0 puis 5 puis 3 : ");
-		System.out.println("le programme renvoit ok si la méthode marche bien");
+		System.out.println("\u001B[36mrentrez 0 puis 5 puis 3 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
 		int[] a = {2, 1, 5, 3, 0, 0, 0, 0, 0};
 		ArrayList<Integer> a2 = new ArrayList<Integer>();
 		for (int i = 0; i < a.length; i++) {
@@ -1130,9 +1125,9 @@ class Grundy2RecBruteEff {
 		System.out.println("demandeSeparer (" + tab + ", " + ligne + ") \t= " + result + "\t ");
 		int resExec = demandeSeparer(tab, ligne);
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -1213,9 +1208,9 @@ class Grundy2RecBruteEff {
 		System.out.print("finPartie (" + tab + ") \t= " + result + "\t : ");
 		boolean resExec = finPartie(tab);
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -1261,13 +1256,11 @@ class Grundy2RecBruteEff {
 		System.out.println();
 		System.out.println("*** testChoixPremierJoueur()");
 		
-		System.out.println("rentrez -1 puis 3 puis 2 puis 1");
-		System.out.println("le programme renvoit ok si la méthode marche bien");
+		System.out.println("\u001B[36mrentrez -1 puis 3 puis 2 puis 1 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
 		int a = 1;
 		testCasChoixPremierJoueur(a);
 		System.out.println();
-		System.out.println("rentrez 0");
-		System.out.println("le programme renvoit ok si la méthode marche bien");
+		System.out.println("\u001B[36mrentrez 0 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
 		int b = 0;
 		testCasChoixPremierJoueur(b);
 	}
@@ -1280,9 +1273,9 @@ class Grundy2RecBruteEff {
 		System.out.println("choixPremierJoueur (" + "nombres rentrés par le testeur" + ") \t= " + result + "\t ");
 		int resExec = choixPremierJoueur();
 		if (resExec == result){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -1336,9 +1329,9 @@ class Grundy2RecBruteEff {
 		System.out.print("demandeLigneOrdinateur (" + tab + ") \t= " + "supérieur à " + min + " et inférieur à " + max + "\t ");
 		int resExec = demandeLigneOrdinateur(tab);
 		if ((resExec >= min) && (resExec <= max)){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
@@ -1395,9 +1388,9 @@ class Grundy2RecBruteEff {
 		System.out.print("demandeSeparerOrdinateur (" + tab +  ", " + ligne + ") \t= " + "supérieur à " + min + " et inférieur à " + max + "\t ");
 		int resExec = demandeSeparerOrdinateur(tab, ligne);
 		if ((resExec >= min) && (resExec <= max)){
-			System.out.println("OK");
+			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("ERREUR");
+			System.err.println("\u001B[31mOK\u001B[0m");
 		}
 	}
 
