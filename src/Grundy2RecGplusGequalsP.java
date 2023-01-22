@@ -38,7 +38,7 @@ class Grundy2RecGplusGequalsP {
 		testPremier();
 		testSuivant();
 		*/
-		tests();
+		//tests();
 		System.out.println();
 		testEstGagnanteEfficacite();
 		System.out.println();
@@ -436,7 +436,7 @@ class Grundy2RecGplusGequalsP {
 		long t1, t2, diffT;
 		boolean coupGagnant = false;
 		
-		for (int i = 1; i <= 48; i++) {
+		for (int i = 1; i <= 73; i++) {
 			ArrayList<Integer> jeu = new ArrayList<Integer>();
 			jeu.add(n);
 			cpt = 0;
@@ -1647,13 +1647,27 @@ class Grundy2RecGplusGequalsP {
 		boolean ret = false;
 		int i = 0;
 	
-		while (!ret && i < posPerdantes.size()) {
-			if (sontIdentiques(copie, posPerdantes.get(i))) {
-				ret = true;
+		while (!ret && i < jeu.size()) {
+			int j = i + 1;
+			while (!ret && j < jeu.size()) {
+				if (combinaisonGagnantPerdant(jeu.get(i), jeu.get(j))) {
+					ret = true;
+				}
+				j++;
 			}
 			i++;
+
 		}
-	
+		if (!ret) {
+			i = 0;
+			while (!ret && i < posPerdantes.size()) {
+				if (sontIdentiques(copie, posPerdantes.get(i))) {
+					ret = true;
+				}
+				i++;
+			}
+		}
+
 		return ret;
 	}
 
@@ -1704,11 +1718,25 @@ class Grundy2RecGplusGequalsP {
 		boolean ret = false;
 		int i = 0;
 
-		while (!ret && i < posGagnantes.size()) {
-			if (sontIdentiques(copie, posGagnantes.get(i))) {
-				ret = true;
+		while (!ret && i < jeu.size()) {
+			int j = i + 1;
+			while (!ret && j < jeu.size()) {
+				if (combinaisonGagnantGagnant(jeu.get(i), jeu.get(j))) {
+					ret = true;
+				}
+				j++;
 			}
 			i++;
+
+		}
+		if (!ret) {
+			i = 0;
+			while (!ret && i < posGagnantes.size()) {
+				if (sontIdentiques(copie, posGagnantes.get(i))) {
+					ret = true;
+				}
+				i++;
+			}
 		}
 
 		return ret;
@@ -1803,5 +1831,64 @@ class Grundy2RecGplusGequalsP {
 		} else {
 			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
+	}
+
+	/**
+	 * Determines the type of a heap
+	 * @param nbMatches number of matches in the heap
+	 * @return type of the heap
+	 */
+	int typeDuTas(int nbMatches) {
+		return type[nbMatches];
+	}
+
+	/**
+	 * Determines if two heaps are of the same type
+	 * @param nbMatches1 number of matches in heap 1
+	 * @param nbMatches2 number of matches in heap 2
+	 * @return true if the two heaps are of the same type
+	 */
+	boolean memeType(int nbMatches1, int nbMatches2) {
+		boolean meme = false;
+
+		if (typeDuTas(nbMatches1) == typeDuTas(nbMatches2)) {
+			meme = true;
+		}
+
+		return meme;
+	}
+
+	/**
+	 * Determines if a winning heap combined with another winning heap makes a winning heap
+	 * @param nbMatches1 number of matches in heap 1
+	 * @param nbMatches2 number of matches in heap 2
+	 * @return true if the two winning heap combined makes a winning heap
+	 */
+	boolean combinaisonGagnantGagnant(int nbMatches1, int nbMatches2) {
+		boolean combinaison = false;
+		boolean type = memeType(nbMatches1, nbMatches2);
+
+		if (!type) {
+			combinaison = true;
+		}
+
+		return combinaison;
+	}
+
+	/**
+	 * Determines if two winning heaps combined make a losing heap
+	 * @param nbMatches1 number of matches in heap 1
+	 * @param nbMatches2 number of matches in heap 2
+	 * @return true if the two winning heaps combined make a losing heap
+	 */
+	boolean combinaisonGagnantPerdant(int nbMatches1, int nbMatches2) {
+		boolean combinaison = false;
+		boolean type = memeType(nbMatches1, nbMatches2);
+
+		if (type) {
+			combinaison = true;
+		}
+
+		return combinaison;
 	}
 }
