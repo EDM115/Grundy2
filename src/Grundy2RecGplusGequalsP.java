@@ -38,7 +38,7 @@ class Grundy2RecGplusGequalsP {
 		testPremier();
 		testSuivant();
 		*/
-		//tests();
+		tests();
 		System.out.println();
 		testEstGagnanteEfficacite();
 		System.out.println();
@@ -424,6 +424,10 @@ class Grundy2RecGplusGequalsP {
 		testEstConnuePerdante();
 		testEstConnueGagnante();
 		testSupprimeLesTasPerdants();
+		testTypeDuTas();
+		testMemeType();
+		testCombinaisonGagnantGagnant();
+		testCombinaisonGagnantPerdant();
 	}
 
 	/**
@@ -1683,13 +1687,13 @@ class Grundy2RecGplusGequalsP {
 		for (int i = 0; i < a2.length; i++) {
 			a.add(a2[i]);
 		}
-		testCasEstConnuePerdante(a, false);
+		testCasEstConnuePerdante(a, true);
 		int[] b2 = {2, 7, 5, 1, 1, 3, 4, 2, 6, 1};
 		ArrayList<Integer> b = new ArrayList<Integer>();
 		for (int i = 0; i < b2.length; i++) {
 			b.add(b2[i]);
 		}
-		testCasEstConnuePerdante(b, false);
+		testCasEstConnuePerdante(b, true);
 	}
 
 	/**
@@ -1754,13 +1758,13 @@ class Grundy2RecGplusGequalsP {
 		for (int i = 0; i < a2.length; i++) {
 			a.add(a2[i]);
 		}
-		testCasEstConnueGagnante(a, false);
+		testCasEstConnueGagnante(a, true);
 		int[] b2 = {2, 7, 5, 1, 1, 3, 4, 2, 6, 1};
 		ArrayList<Integer> b = new ArrayList<Integer>();
 		for (int i = 0; i < b2.length; i++) {
 			b.add(b2[i]);
 		}
-		testCasEstConnueGagnante(b, false);
+		testCasEstConnueGagnante(b, true);
 	}
 
 	/**
@@ -1843,6 +1847,50 @@ class Grundy2RecGplusGequalsP {
 	}
 
 	/**
+	 * Tests typeDuTas()
+	 */
+	void testTypeDuTas() {
+		System.out.println();
+		System.out.println("*** testTypeDuTas()");
+		
+		testCasTypeDuTas(1, 0);
+		testCasTypeDuTas(2, 0);
+		testCasTypeDuTas(3, 1);
+		testCasTypeDuTas(4, 0);
+		testCasTypeDuTas(5, 2);
+		testCasTypeDuTas(6, 1);
+		testCasTypeDuTas(7, 0);
+		testCasTypeDuTas(8, 2);
+		testCasTypeDuTas(9, 1);
+		testCasTypeDuTas(10, 0);
+		testCasTypeDuTas(11, 2);
+		testCasTypeDuTas(12, 1);
+		testCasTypeDuTas(13, 3);
+		testCasTypeDuTas(14, 2);
+		testCasTypeDuTas(15, 1);
+		testCasTypeDuTas(16, 3);
+		testCasTypeDuTas(17, 2);
+		testCasTypeDuTas(18, 4);
+		testCasTypeDuTas(19, 3);
+		testCasTypeDuTas(20, 0);
+	}
+
+	/**
+	 * Test a case of typeDuTas()
+	 * @param nbMatches number of matches in the heap
+	 * @param result expected result
+	 */
+	void testCasTypeDuTas(int nbMatches, int result) {
+		System.out.print("typeDuTas(" + nbMatches + ") \t= " + result + "\t ");
+		int resExec = typeDuTas(nbMatches);
+		if (resExec == result) {
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
+
+	/**
 	 * Determines if two heaps are of the same type
 	 * @param nbMatches1 number of matches in heap 1
 	 * @param nbMatches2 number of matches in heap 2
@@ -1856,6 +1904,39 @@ class Grundy2RecGplusGequalsP {
 		}
 
 		return meme;
+	}
+
+	/**
+	 * Tests memeType()
+	 */
+	void testMemeType() {
+		System.out.println();
+		System.out.println("*** testMemeType()");
+		
+		testCasMemeType(1, 1, true);
+		testCasMemeType(1, 3, false);
+		testCasMemeType(4, 26, true);
+		testCasMemeType(50, 47, false);
+		testCasMemeType(19, 30, true);
+		testCasMemeType(31, 32, false);
+		testCasMemeType(6, 9, true);
+		testCasMemeType(0, 18, false);
+	}
+
+	/**
+	 * Test a case of memeType()
+	 * @param nbMatches1 number of matches in heap 1
+	 * @param nbMatches2 number of matches in heap 2
+	 * @param result expected result
+	 */
+	void testCasMemeType(int nbMatches1, int nbMatches2, boolean result) {
+		System.out.print("memeType(" + nbMatches1 + ", " + nbMatches2 + ") \t= " + result + "\t ");
+		boolean resExec = memeType(nbMatches1, nbMatches2);
+		if (resExec == result) {
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 
 	/**
@@ -1876,6 +1957,36 @@ class Grundy2RecGplusGequalsP {
 	}
 
 	/**
+	 * Tests combinaisonGagnantGagnant()
+	 */
+	void testCombinaisonGagnantGagnant() {
+		System.out.println();
+		System.out.println("*** testCombinaisonGagnantGagnant()");
+		
+		testCasCombinaisonGagnantGagnant(1, 1, false);
+		testCasCombinaisonGagnantGagnant(1, 23, false);
+		testCasCombinaisonGagnantGagnant(1, 22, true);
+		testCasCombinaisonGagnantGagnant(1, 18, true);
+		testCasCombinaisonGagnantGagnant(1, 10, false);
+	}
+
+	/**
+	 * Test a case of combinaisonGagnantGagnant()
+	 * @param nbMatches1 number of matches in heap 1
+	 * @param nbMatches2 number of matches in heap 2
+	 * @param result expected result
+	 */
+	void testCasCombinaisonGagnantGagnant(int nbMatches1, int nbMatches2, boolean result) {
+		System.out.print("combinaisonGagnantGagnant(" + nbMatches1 + ", " + nbMatches2 + ") \t= " + result + "\t ");
+		boolean resExec = combinaisonGagnantGagnant(nbMatches1, nbMatches2);
+		if (resExec == result) {
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
+
+	/**
 	 * Determines if two winning heaps combined make a losing heap
 	 * @param nbMatches1 number of matches in heap 1
 	 * @param nbMatches2 number of matches in heap 2
@@ -1890,5 +2001,35 @@ class Grundy2RecGplusGequalsP {
 		}
 
 		return combinaison;
+	}
+
+	/**
+	 * Tests combinaisonGagnantPerdant()
+	 */
+	void testCombinaisonGagnantPerdant() {
+		System.out.println();
+		System.out.println("*** testCombinaisonGagnantPerdant()");
+		
+		testCasCombinaisonGagnantPerdant(1, 1, true);
+		testCasCombinaisonGagnantPerdant(1, 23, true);
+		testCasCombinaisonGagnantPerdant(1, 22, false);
+		testCasCombinaisonGagnantPerdant(1, 18, false);
+		testCasCombinaisonGagnantPerdant(1, 10, true);
+	}
+
+	/**
+	 * Test a case of combinaisonGagnantPerdant()
+	 * @param nbMatches1 number of matches in heap 1
+	 * @param nbMatches2 number of matches in heap 2
+	 * @param result expected result
+	 */
+	void testCasCombinaisonGagnantPerdant(int nbMatches1, int nbMatches2, boolean result) {
+		System.out.print("combinaisonGagnantPerdant(" + nbMatches1 + ", " + nbMatches2 + ") \t= " + result + "\t ");
+		boolean resExec = combinaisonGagnantPerdant(nbMatches1, nbMatches2);
+		if (resExec == result) {
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 }
