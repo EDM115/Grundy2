@@ -416,8 +416,9 @@ class Grundy2RecPerdantes {
 		System.out.println("*** Efficacité de la méthode estGagnante");
 		int n = 3;
 		long t1, t2, diffT;
+		boolean coupGagnant = false;
 		
-		for (int i = 1; i <= 28; i++) {
+		for (int i = 1; i <= 48; i++) {
 			ArrayList<Integer> jeu = new ArrayList<Integer>();
 			jeu.add(n);
 			cpt = 0;
@@ -427,9 +428,12 @@ class Grundy2RecPerdantes {
 			diffT = (t2 - t1); 
 			System.out.println("Pour n = " + n + ", le temps est : " + diffT + " nanosecondes");
 			System.out.println("Pour n = " + n + ", le cpt est : " + cpt);
+			coupGagnant = jouerGagnant(jeu);
+			System.out.println("l'IA joue le coup gagnant ? : " + coupGagnant);
 			System.out.println();
 			n++;
 			jeu.clear();
+			posPerdantes.clear();
 		}
 	}
 

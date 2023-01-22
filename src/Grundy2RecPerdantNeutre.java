@@ -75,57 +75,57 @@ class Grundy2RecPerdantNeutre {
 	 * @return true if the configuration (of the game) is losing, false otherwise
 	 */
 	boolean estPerdante(ArrayList<Integer> jeu) {
-        boolean ret = true; // par défaut la configuration est perdante
-        
-        if (jeu == null) {
-            System.err.println("estPerdante(): le paramètre jeu est null");
-        } else {
+		boolean ret = true; // par défaut la configuration est perdante
+		
+		if (jeu == null) {
+			System.err.println("estPerdante(): le paramètre jeu est null");
+		} else {
 			ArrayList<Integer> newJeu = supprimeLesTasPerdants(jeu);
-            if (!estPossible(newJeu)) {
-                ret = true;
-            } else if (estConnuePerdante (newJeu)) {
-                ret = true;
-            } else if (estConnueGagnante(newJeu)){
-                ret = false;
-            }
-            else {
-                ArrayList<Integer> essai = new ArrayList<Integer>();
-                int ligne = premier(newJeu, essai);
-                while ((ligne != -1) && ret) {
-                    cpt++;
-                    if (estPerdante(essai) == true) {                    
-                        ret = false;    
-                    } else {
-                        ligne = suivant(newJeu, essai, ligne);
-                    }
-                }
-                if (ret){
-                    posPerdantes.add(normalise(jeu));
-                } else {
-                    posGagnantes.add(normalise(jeu));
-                }
-            }
-        }
-        return ret;
-    }
+			if (!estPossible(newJeu)) {
+				ret = true;
+			} else if (estConnuePerdante (newJeu)) {
+				ret = true;
+			} else if (estConnueGagnante(newJeu)){
+				ret = false;
+			}
+			else {
+				ArrayList<Integer> essai = new ArrayList<Integer>();
+				int ligne = premier(newJeu, essai);
+				while ((ligne != -1) && ret) {
+					cpt++;
+					if (estPerdante(essai) == true) {                    
+						ret = false;    
+					} else {
+						ligne = suivant(newJeu, essai, ligne);
+					}
+				}
+				if (ret){
+					posPerdantes.add(normalise(jeu));
+				} else {
+					posGagnantes.add(normalise(jeu));
+				}
+			}
+		}
+		return ret;
+	}
 
-    /**
-     * Indicates if the configuration is winning
-     * @param jeu game board
-     * @return true if the configuration is winning, false otherwise
-     */
-    boolean estGagnante(ArrayList<Integer> jeu) {
-        boolean ret = false;
-        
-        if (jeu == null) {
-            System.err.println("estGagnante(): le paramètre jeu est null");
-        } 
-        else {
-            ret = !estPerdante(jeu);
-        }
+	/**
+	 * Indicates if the configuration is winning
+	 * @param jeu game board
+	 * @return true if the configuration is winning, false otherwise
+	 */
+	boolean estGagnante(ArrayList<Integer> jeu) {
+		boolean ret = false;
+		
+		if (jeu == null) {
+			System.err.println("estGagnante(): le paramètre jeu est null");
+		} 
+		else {
+			ret = !estPerdante(jeu);
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
 	/**
 	 * Short tests of the jouerGagnant() method
@@ -429,6 +429,7 @@ class Grundy2RecPerdantNeutre {
 		System.out.println("*** Efficacité de la méthode estGagnante");
 		int n = 3;
 		long t1, t2, diffT;
+		boolean coupGagnant = false;
 		
 		for (int i = 1; i <= 48; i++) {
 			ArrayList<Integer> jeu = new ArrayList<Integer>();
@@ -440,6 +441,8 @@ class Grundy2RecPerdantNeutre {
 			diffT = (t2 - t1); 
 			System.out.println("Pour n = " + n + ", le temps est : " + diffT + " nanosecondes");
 			System.out.println("Pour n = " + n + ", le cpt est : " + cpt);
+			coupGagnant = jouerGagnant(jeu);
+			System.out.println("l'IA joue le coup gagnant ? : " + coupGagnant);
 			System.out.println();
 			n++;
 			jeu.clear();
@@ -1687,24 +1690,24 @@ class Grundy2RecPerdantNeutre {
 
 	/**
 	 * Determine if the configuration is known as winning in posGagnantes
-     * @param jeu game board
-     * @return true if the game is in posGagnantes
-     */
-    boolean estConnueGagnante(ArrayList<Integer> jeu) {
-        // création d'une copie de jeu triée sans 1, ni 2
-        ArrayList<Integer> copie = normalise(jeu);
-        boolean ret = false;
-        int i = 0;
+	 * @param jeu game board
+	 * @return true if the game is in posGagnantes
+	 */
+	boolean estConnueGagnante(ArrayList<Integer> jeu) {
+		// création d'une copie de jeu triée sans 1, ni 2
+		ArrayList<Integer> copie = normalise(jeu);
+		boolean ret = false;
+		int i = 0;
 
-        while (!ret && i < posGagnantes.size()) {
-            if (sontIdentiques(copie, posGagnantes.get(i))) {
-                ret = true;
-            }
-            i++;
-        }
+		while (!ret && i < posGagnantes.size()) {
+			if (sontIdentiques(copie, posGagnantes.get(i))) {
+				ret = true;
+			}
+			i++;
+		}
 
-        return ret;
-    }
+		return ret;
+	}
 
 	/**
 	 * Tests estConnueGagnante()
