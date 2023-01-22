@@ -417,7 +417,7 @@ class Grundy2RecPerdantes {
 		int n = 3;
 		long t1, t2, diffT;
 		
-		for (int i = 1; i <= 22; i++) {
+		for (int i = 1; i <= 28; i++) {
 			ArrayList<Integer> jeu = new ArrayList<Integer>();
 			jeu.add(n);
 			cpt = 0;
