@@ -28,7 +28,10 @@ class Grundy2RecPerdantes {
 		testPremier();
 		testSuivant();
 		*/
+		tests();
+		System.out.println();
 		testEstGagnanteEfficacite();
+		System.out.println();
 		partieJoueurContreOrdinateur();
 	}
 	
@@ -380,15 +383,29 @@ class Grundy2RecPerdantes {
 ///////////////////////////////////////////////////////////////////////////
 
 	/**
-	 * Fills a game with nb random numbers
-	 * @param jeu the game to fill
-	 * @param nb the number of numbers to add
+	 * Simply calls all tests written for our methods
 	 */
-	void remplirAleatoire(ArrayList<Integer> jeu, int nb) {
-		for (int i = 0; i < nb; i++) {
-			int random = (int)(Math.random() * 10);
-			jeu.add(random);
-		}
+	void tests() {
+		testCreerTableauAllumettes();
+		testCreerEtAfficherLesTableaux();
+		testBonChoixLigne();
+		testBonneSeparation();
+		testPremierZero();
+		testSeparation();
+		testQuiVaJouer();
+		testDemandeNombreAllumettes();
+		testUnSeulTasSeparable();
+		testIndiceDuSeulTasSeparable();
+		testDemandeLigne();
+		testDemandeSeparer();
+		testFinPartie();
+		testLigneDeSeparation();
+		testChoixPremierJoueur();
+		testDemandeLigneOrdinateur();
+		testDemandeSeparerOrdinateur();
+		testNormalise();
+		testSontIdentiques();
+		testEstConnuePerdante();
 	}
 
 	/**
@@ -400,7 +417,7 @@ class Grundy2RecPerdantes {
 		int n = 3;
 		long t1, t2, diffT;
 		
-		for (int i = 1; i <= 29; i++) {
+		for (int i = 1; i <= 22; i++) {
 			ArrayList<Integer> jeu = new ArrayList<Integer>();
 			jeu.add(n);
 			cpt = 0;
@@ -422,17 +439,47 @@ class Grundy2RecPerdantes {
 	* @return the final array
 	**/
 	char[] creerTableauAllumettes(int nb) {
-		char[] ret = new char[nb * 3];
+		char[] ret = new char[nb * 2];
 		int i = 0;
 
 		while (i < ret.length) {
 			ret[i] = ' ';
 			ret[i + 1] = '|';
-			ret[i + 2] = ' ';
-			i += 3;
+			i += 2;
 		}
 
 		return ret;
+	}
+
+	/**
+	* Tests creerTableauAllumettes
+	**/
+	void testCreerTableauAllumettes() {
+		System.out.println();
+		System.out.println("*** testCreerTableauAllumettes()");
+		
+		char[] a = {' ', '|', ' ', '|'};
+		testCasCreerTableauAllumettes(2, a);
+		char[] b = {};
+		testCasCreerTableauAllumettes(0, b);
+		char[] c = {' ', '|'};
+		testCasCreerTableauAllumettes(1, c);
+	}
+
+	/**
+	* Tests a call of creerTableauAllumettes
+	* @param lg length of the array
+	* @param result expected result
+	**/
+	void testCasCreerTableauAllumettes(int lg, char[] result) {
+		System.out.print("creerTableauAllumettes (" + lg + ") \t= " + Arrays.toString(result) + "\t : ");
+		char[] resExec = creerTableauAllumettes(lg);
+		boolean pareil = Arrays.equals(resExec, result);
+		if (pareil){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 
 	/**
@@ -455,6 +502,30 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
+	* Tests creerEtAfficherLesTableaux
+	**/
+	void testCreerEtAfficherLesTableaux() {
+		System.out.println();
+		System.out.println("*** testCreerEtAfficherLesTableaux()");
+		
+		int[] a = {11, 3, 4, 2, 1, 1, 0, 0, 0, 0, 0};
+		ArrayList<Integer> jeu1 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			jeu1.add(a[i]);
+		}
+		System.out.println("creerEtAfficherLesTableaux (" + Arrays.toString(a) + ")");
+		creerEtAfficherLesTableaux(jeu1);
+		System.out.println();
+		int[] b = {7, 3, 5, 1, 0, 0, 4, 0, 0, 0, 0};
+		ArrayList<Integer> jeu2 = new ArrayList<Integer>();
+		for (int i = 0; i < b.length; i++) {
+			jeu2.add(b[i]);
+		}
+		System.out.println("creerEtAfficherLesTableaux (" + Arrays.toString(b) + ")");
+		creerEtAfficherLesTableaux(jeu2);
+	}
+
+	/**
 	* Tests if the player gave the right line number
 	* @param tab game board
 	* @param ligne the line selected by the player
@@ -468,6 +539,43 @@ class Grundy2RecPerdantes {
 		}
 
 		return ret;
+	}
+
+	/**
+	* Tests bonChoixLigne
+	**/
+	void testBonChoixLigne() {
+		System.out.println();
+		System.out.println("*** testBonChoixLigne()");
+		
+		int[] a = {2, 3, 5, 1, 0, 0, 0, 0, 0, 0, 0};
+		ArrayList<Integer> jeu1 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			jeu1.add(a[i]);
+		}
+		testCasBonChoixLigne(jeu1, -1, false);
+		testCasBonChoixLigne(jeu1, 0, false);
+		testCasBonChoixLigne(jeu1, 11, false);
+		testCasBonChoixLigne(jeu1, 12, false);
+		testCasBonChoixLigne(jeu1, 3, false);
+		testCasBonChoixLigne(jeu1, 1, true);
+		testCasBonChoixLigne(jeu1, 2, true);
+	}
+   
+	/**
+	* Tests a call of bonChoixLigne
+	* @param tab game board
+	* @param ligne the selected line
+	* @param result expected result
+	**/
+	void testCasBonChoixLigne(ArrayList<Integer> tab, int ligne, boolean result) {
+		System.out.print("BonChoixLigne (" + tab + ", " + ligne + ") \t= " + result + "\t : ");
+		boolean resExec = bonChoixLigne(tab, ligne);
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 
 	/**
@@ -496,6 +604,47 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
+	* Tests bonneSeparation
+	**/
+	void testBonneSeparation() {
+		System.out.println();
+		System.out.println("*** testBonneSeparation()");
+		
+		int[] a = {2, 3, 5, 1, 4, 0, 0, 0, 0, 0, 0};
+		ArrayList<Integer> jeu1 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			jeu1.add(a[i]);
+		}
+		testCasBonneSeparation(jeu1, 1, 1, true);
+		testCasBonneSeparation(jeu1, 1, 2, true);
+		testCasBonneSeparation(jeu1, 1, 3, false);
+		testCasBonneSeparation(jeu1, 4, 2, false);
+		testCasBonneSeparation(jeu1, 4, -1, false);
+		testCasBonneSeparation(jeu1, 4, 4, false);
+		testCasBonneSeparation(jeu1, 4, 1, true);
+		testCasBonneSeparation(jeu1, 0, 2, false);
+		testCasBonneSeparation(jeu1, 0, 1, false);
+		testCasBonneSeparation(jeu1, 6, 2, false);
+	}
+   
+	/**
+	* Tests a call of bonneSeparation
+	* @param tab game board
+	* @param ligne selected line
+	* @param separer number of matches the player entered
+	* @param result expected result
+	**/
+	void testCasBonneSeparation(ArrayList<Integer> tab, int ligne, int separer, boolean result) {
+		System.out.print("bonneSeparation (" + tab + ", " + ligne + ", " + separer + ") \t= " + result + "\t : ");
+		boolean resExec = bonneSeparation(tab, ligne, separer);
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
+
+	/**
 	* Returns the next empty spot in the array
 	* @param tab game board
 	* @return the next empty spot in the array
@@ -504,6 +653,54 @@ class Grundy2RecPerdantes {
 		int ret = tab.size() + 1;
 
 		return ret;
+	}
+
+	/**
+	* Tests premierZero
+	**/
+	void testPremierZero() {
+		System.out.println();
+		System.out.println("*** testPremierZero()");
+		
+		int[] a = {9, 3, 6, 1, 2};
+		ArrayList<Integer> jeu1 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			jeu1.add(a[i]);
+		}
+		testCasPremierZero(jeu1, 6);
+		int[] b = {8, 3, 5};
+		ArrayList<Integer> jeu2 = new ArrayList<Integer>();
+		for (int i = 0; i < b.length; i++) {
+			jeu2.add(b[i]);
+		}
+		testCasPremierZero(jeu2, 4);
+		int[] c = {};
+		ArrayList<Integer> jeu3 = new ArrayList<Integer>();
+		for (int i = 0; i < c.length; i++) {
+			jeu3.add(c[i]);
+		}
+		testCasPremierZero(jeu3, 1);
+		int[] d = {8, 3, 1, 2};
+		ArrayList<Integer> jeu4 = new ArrayList<Integer>();
+		for (int i = 0; i < d.length; i++) {
+			jeu4.add(d[i]);
+		}
+		testCasPremierZero(jeu4, 5);
+	}
+   
+	/**
+	* Tests a call of premierZero
+	* @param tab game board
+	* @param result expected result
+	**/
+	void testCasPremierZero(ArrayList<Integer> tab, int result) {
+		System.out.print("premierZero (" + tab + ") \t= " + result + "\t : ");
+		int resExec = premierZero(tab);
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 
 	/**
@@ -542,6 +739,66 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
+	* Tests separation
+	**/
+	void testSeparation() {
+		System.out.println();
+		System.out.println("*** testSeparation()");
+		
+		int[] a = {3, 5, 4, 3, 0, 0, 0, 0, 0};
+		ArrayList<Integer> jeuA = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			jeuA.add(a[i]);
+		}
+		int[] resultA = {3, 2, 3, 4, 3, 0, 0, 0, 0, 0};
+		ArrayList<Integer> jeuResultA = new ArrayList<Integer>();
+		for (int i = 0; i < resultA.length; i++) {
+			jeuResultA.add(resultA[i]);
+		}
+		testCasSeparation(jeuA, 1, 2, jeuResultA);
+		int[] b = {3, 5, 4, 3, 0, 0, 0, 0, 0};
+		ArrayList<Integer> jeuB = new ArrayList<Integer>();
+		for (int i = 0; i < b.length; i++) {
+			jeuB.add(b[i]);
+		}
+		int[] resultB = {3, 5, 4, 2, 1, 0, 0, 0, 0, 0};
+		ArrayList<Integer> jeuResultB = new ArrayList<Integer>();
+		for (int i = 0; i < resultB.length; i++) {
+			jeuResultB.add(resultB[i]);
+		}
+		testCasSeparation(jeuB, 3, 2, jeuResultB);
+		int[] c = {3, 5, 4, 3, 0, 0, 0, 0, 0};
+		ArrayList<Integer> jeuC = new ArrayList<Integer>();
+		for (int i = 0; i < c.length; i++) {
+			jeuC.add(c[i]);
+		}
+		int[] resultC = {1, 2, 5, 4, 3, 0, 0, 0, 0, 0};
+		ArrayList<Integer> jeuResultC = new ArrayList<Integer>();
+		for (int i = 0; i < resultC.length; i++) {
+			jeuResultC.add(resultC[i]);
+		}
+		testCasSeparation(jeuC, 0, 1, jeuResultC);
+	}
+   
+	/**
+	* Tests a call of separation
+	* @param tab game board
+	* @param ligne selected line
+	* @param separer number of matches to separate
+	* @param result expected result
+	**/
+	void testCasSeparation(ArrayList<Integer> tab, int ligne, int separer, ArrayList<Integer> result) {
+		System.out.print("separation (" + tab + ", " + ligne + ", " + separer + ") \t= " + result + "\t : ");
+		ArrayList<Integer> resExec = separation(tab, ligne, separer);
+		System.out.println(resExec);
+		if (resExec.equals(result)){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
+
+	/**
 	* Determine who is going to play
 	* @param joueur even or odd number
 	* @param joueur1 name of the first player
@@ -561,6 +818,38 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
+	* Tests quiVaJouer
+	**/
+	void testQuiVaJouer() {
+		System.out.println();
+		System.out.println("*** testQuiVaJouer()");
+		
+		String j1 = "nathan";
+		String j2 = "basol";
+		testCasQuiVaJouer(1, j1, j2, "basol");
+		testCasQuiVaJouer(0, j1, j2, "nathan");
+		testCasQuiVaJouer(4, j1, j2, "nathan");
+		testCasQuiVaJouer(5, j1, j2, "basol");
+	}
+   
+	/**
+	* Tests a call of quiVaJouer
+	* @param joueur even or odd number
+	* @param joueur1 name of the first player
+	* @param joueur2 name of the second player	
+	* @param result expected result
+	**/
+	void testCasQuiVaJouer(int joueur, String joueur1, String joueur2, String result) {
+		System.out.print("quiVaJouer (" + joueur + ", " + joueur1 + ", " + joueur2 + ") \t= " + result + "\t : ");
+		String resExec = quiVaJouer(joueur, joueur1, joueur2);
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
+
+	/**
 	* Asks the player for the starting number of matches as long as the number of matches entered is incorrect
 	* @return an array of integers with index 0 initialized
 	**/
@@ -574,6 +863,44 @@ class Grundy2RecPerdantes {
 		ret.add(0, initialisation);
 
 		return ret;
+	}
+
+	/**
+	* Tests demandeNombreAllumettes
+	**/
+	void testDemandeNombreAllumettes() {
+		System.out.println();
+		System.out.println("*** testDemandeNombreAllumettes()");
+		
+		System.out.println("\u001B[36mrentrez 1 puis 2 puis 7 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
+		int[] a = {7};
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			a2.add(a[i]);
+		}
+		testCasDemandeNombreAllumettes(a2);
+		System.out.println();
+		System.out.println("\u001B[36mrentrez 13 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
+		int[] b = {13};
+		ArrayList<Integer> b2 = new ArrayList<Integer>();
+		for (int i = 0; i < b.length; i++) {
+			b2.add(b[i]);
+		}
+		testCasDemandeNombreAllumettes(b2);
+	}
+   
+	/**
+	* Tests a call of demandeNombreAllumettes
+	* @param result expected result
+	**/
+	void testCasDemandeNombreAllumettes(ArrayList<Integer> result) {
+		System.out.println("demandeNombreAllumettes (" + " nombres rentrés par le testeur " + ") \t= " + result + "\t ");
+		ArrayList<Integer> resExec = demandeNombreAllumettes();
+		if (resExec.equals(result)){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 
 	/**
@@ -600,6 +927,48 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
+	* Tests unSeulTasSeparable
+	**/
+	void testUnSeulTasSeparable() {
+		System.out.println();
+		System.out.println("*** testUnSeulTasSeparable()");
+		
+		int[] a = {2, 1, 3, 2};
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			a2.add(a[i]);
+		}
+		testCasUnSeulTasSeparable(a2, true);
+		int[] b = {2, 4, 3, 2};
+		ArrayList<Integer> b2 = new ArrayList<Integer>();
+		for (int i = 0; i < b.length; i++) {
+			b2.add(b[i]);
+		}
+		testCasUnSeulTasSeparable(b2, false);
+		int[] c = {3};
+		ArrayList<Integer> c2 = new ArrayList<Integer>();
+		for (int i = 0; i < c.length; i++) {
+			c2.add(c[i]);
+		}
+		testCasUnSeulTasSeparable(c2, true);
+	}
+   
+	/**
+	* Tests a call of unSeulTasSeparable
+	* @param tab game board
+	* @param result expected result
+	**/
+	void testCasUnSeulTasSeparable(ArrayList<Integer> tab, boolean result) {
+		System.out.print("unSeulTasSeparable (" + tab + ") \t= " + result + "\t : ");
+		boolean resExec = unSeulTasSeparable(tab);
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
+
+	/**
 	* Searches for the index of the only separable heap
 	* @param tab game board with the only separable heap
 	* @return the index of that heap
@@ -618,6 +987,54 @@ class Grundy2RecPerdantes {
 		}
 
 		return ret;
+	}
+
+	/**
+	* Tests indiceDuSeulTasSeparable
+	**/
+	void testIndiceDuSeulTasSeparable() {
+		System.out.println();
+		System.out.println("*** testIndiceDuSeulTasSeparable()");
+	  
+		int[] a = {3, 1, 2, 1};
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			a2.add(a[i]);
+		}
+		testCasIndiceDuSeulTasSeparable(a2, 0);
+		int[] b = {1, 1, 2, 3};
+		ArrayList<Integer> b2 = new ArrayList<Integer>();
+		for (int i = 0; i < b.length; i++) {
+			b2.add(b[i]);
+		}
+		testCasIndiceDuSeulTasSeparable(b2, 3);
+		int[] c = {1, 3, 2, 1};
+		ArrayList<Integer> c2 = new ArrayList<Integer>();
+		for (int i = 0; i < c.length; i++) {
+			c2.add(c[i]);
+		}
+		testCasIndiceDuSeulTasSeparable(c2, 1);
+		int[] d = {3};
+		ArrayList<Integer> d2 = new ArrayList<Integer>();
+		for (int i = 0; i < d.length; i++) {
+			d2.add(d[i]);
+		}
+		testCasIndiceDuSeulTasSeparable(d2, 0);
+	}
+   
+	/**
+	* Tests a call of indiceDuSeulTasSeparable
+	* @param tab game board
+	* @param result expected result
+	**/
+	void testCasIndiceDuSeulTasSeparable(ArrayList<Integer> tab, int result) {
+		System.out.print("indiceDuSeulTasSeparable (" + tab + ") \t= " + result + "\t : ");
+		int resExec = indiceDuSeulTasSeparable(tab);
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 
 	/**
@@ -641,6 +1058,45 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
+	* Tests demandeLigne
+	**/
+	void testDemandeLigne() {
+		System.out.println();
+		System.out.println("*** testDemandeLigne()");
+		
+		System.out.println("\u001B[36mrentrez 0 puis 1 puis 2 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
+		int[] a = {2, 1, 5, 3, 0, 0, 0, 0, 0};
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			a2.add(a[i]);
+		}
+		testCasDemandeLigne(a2, 2);
+		System.out.println();
+		System.out.println("ici vous n'avez rien a rentrer car il n'y a qu'un seul tas separable");
+		int[] b = {2, 1, 5, 2, 0, 0, 0, 0, 0};
+		ArrayList<Integer> b2 = new ArrayList<Integer>();
+		for (int i = 0; i < b.length; i++) {
+			b2.add(b[i]);
+		}
+		testCasDemandeLigne(b2, 2);
+	}
+   
+	/**
+	* Tests a call of demandeLigne
+	* @param tab game board
+	* @param result expected result
+	**/
+	void testCasDemandeLigne(ArrayList<Integer> tab, int result) {
+		System.out.println("demandeLigne (" + tab + ") \t= " + result + "\t ");
+		int resExec = demandeLigne(tab);
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
+
+	/**
 	* Ask the player for a valid number of matches to separate as long as the number entered is incorrect
 	* @param tab game board
 	* @param ligne valid line
@@ -654,6 +1110,38 @@ class Grundy2RecPerdantes {
 		}
 
 		return ret;
+	}
+
+	/**
+	* Tests demandeSeparer
+	**/
+	void testDemandeSeparer() {
+		System.out.println();
+		System.out.println("*** testDemandeSeparer()");
+		
+		System.out.println("\u001B[36mrentrez 0 puis 5 puis 3 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
+		int[] a = {2, 1, 5, 3, 0, 0, 0, 0, 0};
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			a2.add(a[i]);
+		}
+		testCasDemandeSeparer(a2, 2, 3);
+	}
+   
+	/**
+	* Tests a call of demandeSeparer
+	* @param tab game board
+	* @param ligne valid line
+	* @param result expected result
+	**/
+	void testCasDemandeSeparer(ArrayList<Integer> tab, int ligne, int result) {
+		System.out.println("demandeSeparer (" + tab + ", " + ligne + ") \t= " + result + "\t ");
+		int resExec = demandeSeparer(tab, ligne);
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 
 	/**
@@ -680,12 +1168,81 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
+	* Tests finPartie
+	**/
+	void testFinPartie() {
+		System.out.println();
+		System.out.println("*** testFinPartie()");
+		
+		int[] a = {8, 4, 6, 3};
+		ArrayList<Integer> a2 = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			a2.add(a[i]);
+		}
+		testCasFinPartie(a2, false);
+		int[] b = {2, 1, 2, 1};
+		ArrayList<Integer> b2 = new ArrayList<Integer>();
+		for (int i = 0; i < b.length; i++) {
+			b2.add(b[i]);
+		}
+		testCasFinPartie(b2, true);
+		int[] c = {2, 4, 1, 3};
+		ArrayList<Integer> c2 = new ArrayList<Integer>();
+		for (int i = 0; i < c.length; i++) {
+			c2.add(c[i]);
+		}
+		testCasFinPartie(c2, false);
+		int[] d = {2};
+		ArrayList<Integer> d2 = new ArrayList<Integer>();
+		for (int i = 0; i < d.length; i++) {
+			d2.add(d[i]);
+		}
+		testCasFinPartie(d2, true);
+		int[] e = {1, 1, 1, 3};
+		ArrayList<Integer> e2 = new ArrayList<Integer>();
+		for (int i = 0; i < e.length; i++) {
+			e2.add(e[i]);
+		}
+		testCasFinPartie(e2, false);
+		int[] f = {2, 1, 2, 1, 2, 1, 1};
+		ArrayList<Integer> f2 = new ArrayList<Integer>();
+		for (int i = 0; i < f.length; i++) {
+			f2.add(f[i]);
+		}
+		testCasFinPartie(f2, true);
+	}
+   
+	/**
+	* Tests a call of finPartie
+	* @param tab game board
+	* @param result expected result
+	**/
+	void testCasFinPartie(ArrayList<Integer> tab, boolean result) {
+		System.out.print("finPartie (" + tab + ") \t= " + result + "\t : ");
+		boolean resExec = finPartie(tab);
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
+
+	/**
 	* Prints a line
 	**/
 	void ligneDeSeparation() {
 		System.out.println();
 		System.out.println("-----------------");
 		System.out.println();
+	}
+
+	/**
+	* Tests ligneDeSeparation
+	**/
+	void testLigneDeSeparation() {
+		System.out.println();
+		System.out.println("*** testLigneDeSeparation()");
+		ligneDeSeparation();
 	}
 
 	/**
@@ -706,19 +1263,33 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
-	 * The AI chooses a random number between 0 and the number of matches in the heap chosen
-	* @param tab game board 
-	* @param ligne valid line
-	* @return a valid separation chosen by the AI
+	* Tests choixPremierJoueur
 	**/
-	int demandeSeparerOrdinateur(ArrayList<Integer> tab, int ligne) {
-		int ret = (int)(Math.random() * (tab.get(ligne)));
-
-		while (!bonneSeparation(tab, ligne, ret)) {
-			ret = (int)(Math.random() * (tab.get(ligne)));
+	void testChoixPremierJoueur() {
+		System.out.println();
+		System.out.println("*** testChoixPremierJoueur()");
+		
+		System.out.println("\u001B[36mrentrez -1 puis 3 puis 2 puis 1 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
+		int a = 1;
+		testCasChoixPremierJoueur(a);
+		System.out.println();
+		System.out.println("\u001B[36mrentrez 0 (le programme renvoit ok si la méthode marche bien) : \u001B[0m");
+		int b = 0;
+		testCasChoixPremierJoueur(b);
+	}
+   
+	/**
+	* Tests a call of choixPremierJoueur
+	* @param result expected result
+	**/
+	void testCasChoixPremierJoueur(int result) {
+		System.out.println("choixPremierJoueur (" + "nombres rentrés par le testeur" + ") \t= " + result + "\t ");
+		int resExec = choixPremierJoueur();
+		if (resExec == result){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
-
-		return ret;
 	}
 
 	/**
@@ -737,25 +1308,104 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
-	 * Determine if the configuration is known as losing in posPerdantes
-     * @param jeu game board
-     * @return true if the game is in posPerdantes
-     */
-    boolean estConnuePerdante(ArrayList<Integer> jeu) {
-        // création d'une copie de jeu triée sans 1, ni 2
-        ArrayList<Integer> copie = normalise(jeu);
-        boolean ret = false;
-        int i = 0;
+	* Tests demandeLigneOrdinateur
+	**/
+	void testDemandeLigneOrdinateur() {
+		System.out.println();
+		System.out.println("*** testDemandeLigneOrdinateur()");
+	   
+		int[] a1 = {2, 7, 5, 1, 1, 3, 4, 2, 6};
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		for (int i = 0; i < a1.length; i++) {
+			a.add(a1[i]);
+		}
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+		testCasDemandeLigneOrdinateur(a, 0, 8);
+	}
+	
+	/**
+	* Tests a call of demandeLigneOrdinateur
+	* @param tab game board
+	* @param min minimum value that the method can return
+	* @param max maximum value that the method can return
+	**/
+	void testCasDemandeLigneOrdinateur(ArrayList<Integer> tab, int min, int max) {
+		System.out.print("demandeLigneOrdinateur (" + tab + ") \t= " + "supérieur à " + min + " et inférieur à " + max + "\t ");
+		int resExec = demandeLigneOrdinateur(tab);
+		if ((resExec >= min) && (resExec <= max)){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
 
-        while (!ret && i < posPerdantes.size()) {
-            if (sontIdentiques(copie, posPerdantes.get(i))) {
-                ret = true;
-            }
-            i++;
-        }
+	/**
+	 * The AI chooses a random number between 0 and the number of matches in the heap chosen
+	* @param tab game board 
+	* @param ligne valid line
+	* @return a valid separation chosen by the AI
+	**/
+	int demandeSeparerOrdinateur(ArrayList<Integer> tab, int ligne) {
+		int ret = (int)(Math.random() * (tab.get(ligne)));
 
-        return ret;
-    }
+		while (!bonneSeparation(tab, ligne, ret)) {
+			ret = (int)(Math.random() * (tab.get(ligne)));
+		}
+
+		return ret;
+	}
+
+	/**
+	* Tests demandeSeparerOrdinateur
+	**/
+	void testDemandeSeparerOrdinateur() {
+		System.out.println();
+		System.out.println("*** testDemandeSeparerOrdinateur()");
+	   
+		int[] a2 = {2, 7, 5, 1, 1, 3, 4, 2, 6};
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		for (int i = 0; i < a2.length; i++) {
+			a.add(a2[i]);
+		}
+		testCasDemandeSeparerOrdinateur(a, 1, 0, 6);
+		testCasDemandeSeparerOrdinateur(a, 1, 0, 6);
+		testCasDemandeSeparerOrdinateur(a, 1, 0, 6);
+		testCasDemandeSeparerOrdinateur(a, 1, 0, 6);
+		testCasDemandeSeparerOrdinateur(a, 1, 0, 6);
+		testCasDemandeSeparerOrdinateur(a, 1, 0, 6);
+		testCasDemandeSeparerOrdinateur(a, 1, 0, 6);
+		testCasDemandeSeparerOrdinateur(a, 2, 0, 4);
+		testCasDemandeSeparerOrdinateur(a, 2, 0, 4);
+		testCasDemandeSeparerOrdinateur(a, 2, 0, 4);
+		testCasDemandeSeparerOrdinateur(a, 2, 0, 4);
+		testCasDemandeSeparerOrdinateur(a, 2, 0, 4);
+	}
+   
+	/**
+	* Tests a call of demandeSeparerOrdinateur
+	* @param tab game board
+	* @param ligne valid line
+	* @param min minimum value that the method can return
+	* @param max maximum value that the method can return
+	**/
+	void testCasDemandeSeparerOrdinateur(ArrayList<Integer> tab, int ligne, int min , int max) {
+		System.out.print("demandeSeparerOrdinateur (" + tab +  ", " + ligne + ") \t= " + "supérieur à " + min + " et inférieur à " + max + "\t ");
+		int resExec = demandeSeparerOrdinateur(tab, ligne);
+		if ((resExec >= min) && (resExec <= max)){
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
 
 	/**
 	* Plays a Player vs AI game
@@ -814,6 +1464,15 @@ class Grundy2RecPerdantes {
 	}
 
 	/**
+	* Tests partieJoueurContreOrdinateur()
+	**/
+	void testPartieJoueurContreOrdinateur() {
+		System.out.println();
+		System.out.println("*** testPartieJoueurContreOrdinateur()");
+		partieJoueurContreOrdinateur();
+	}
+
+	/**
 	 * Normalize the game board by removing the heaps with 1 or 2 matches
 	 * @param jeu game board
 	 * @return normalized game board
@@ -833,6 +1492,52 @@ class Grundy2RecPerdantes {
 		}
 		
 		return ret;
+	}
+
+	/**
+	 * Tests normalise()
+	 */
+	void testNormalise() {
+		System.out.println();
+		System.out.println("*** testNormalise()");
+	   
+		int[] a2 = {2, 7, 5, 1, 1, 3, 4, 2, 6};
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		for (int i = 0; i < a2.length; i++) {
+			a.add(a2[i]);
+		}
+		int[] resultA2 = {3, 4, 5, 6, 7};
+		ArrayList<Integer> resultA = new ArrayList<Integer>();
+		for (int i = 0; i < resultA2.length; i++) {
+			resultA.add(resultA2[i]);
+		}
+		testCasNormalise(a, resultA);
+		int[] b2 = {1, 1, 1, 1, 1, 1, 2, 2, 1, 3};
+		ArrayList<Integer> b = new ArrayList<Integer>();
+		for (int i = 0; i < b2.length; i++) {
+			b.add(b2[i]);
+		}
+		int[] resultB2 = {3};
+		ArrayList<Integer> resultB = new ArrayList<Integer>();
+		for (int i = 0; i < resultB2.length; i++) {
+			resultB.add(resultB2[i]);
+		}
+		testCasNormalise(b, resultB);
+	}
+
+	/**
+	 * Test a case of normalise()
+	 * @param jeu game board
+	 * @param result expected result
+	 */
+	void testCasNormalise(ArrayList<Integer> jeu, ArrayList<Integer> result) {
+		System.out.print("normalise(" + jeu + ") \t= " + result + "\t ");
+		ArrayList<Integer> resExec = normalise(jeu);
+		if (resExec.equals(result)) {
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 
 	/**
@@ -859,5 +1564,109 @@ class Grundy2RecPerdantes {
 		}
 		
 		return ret;
+	}
+
+	/**
+	 * Tests sontIdentiques()
+	 */
+	void testSontIdentiques() {
+		System.out.println();
+		System.out.println("*** testSontIdentiques()");
+		
+		int[] a2 = {2, 7, 5, 1, 1, 3, 4, 2, 6};
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		for (int i = 0; i < a2.length; i++) {
+			a.add(a2[i]);
+		}
+		int[] b2 = {2, 7, 5, 1, 1, 3, 4, 2, 6};
+		ArrayList<Integer> b = new ArrayList<Integer>();
+		for (int i = 0; i < b2.length; i++) {
+			b.add(b2[i]);
+		}
+		testCasSontIdentiques(a, b, true);
+		int[] c2 = {2, 7, 5, 1, 1, 3, 4, 2, 6};
+		ArrayList<Integer> c = new ArrayList<Integer>();
+		for (int i = 0; i < c2.length; i++) {
+			c.add(c2[i]);
+		}
+		int[] d2 = {2, 7, 5, 1, 1, 3, 4, 2, 6, 1};
+		ArrayList<Integer> d = new ArrayList<Integer>();
+		for (int i = 0; i < d2.length; i++) {
+			d.add(d2[i]);
+		}
+		testCasSontIdentiques(c, d, false);
+	}
+
+	/**
+	 * Test a case of sontIdentiques()
+	 * @param jeu1 game board 1
+	 * @param jeu2 game board 2
+	 * @param result expected result
+	 */
+	void testCasSontIdentiques(ArrayList<Integer> jeu1, ArrayList<Integer> jeu2, boolean result) {
+		System.out.print("sontIdentiques(" + jeu1 + ", " + jeu2 + ") \t= " + result + "\t ");
+		boolean resExec = sontIdentiques(jeu1, jeu2);
+		if (resExec == result) {
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
+	}
+
+	/**
+	 * Determine if the configuration is known as losing in posPerdantes
+	 * @param jeu game board
+	 * @return true if the game is in posPerdantes
+	 */
+	boolean estConnuePerdante(ArrayList<Integer> jeu) {
+		// création d'une copie de jeu triée sans 1, ni 2
+		ArrayList<Integer> copie = normalise(jeu);
+		boolean ret = false;
+		int i = 0;
+	
+		while (!ret && i < posPerdantes.size()) {
+			if (sontIdentiques(copie, posPerdantes.get(i))) {
+				ret = true;
+			}
+			i++;
+		}
+	
+		return ret;
+	}
+
+	/**
+	 * Tests estConnuePerdante()
+	 */
+	void testEstConnuePerdante() {
+		System.out.println();
+		System.out.println("*** testEstConnuePerdante()");
+		
+		int[] a2 = {2, 7, 5, 1, 1, 3, 4, 2, 6};
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		for (int i = 0; i < a2.length; i++) {
+			a.add(a2[i]);
+		}
+		testCasEstConnuePerdante(a, false);
+		int[] b2 = {2, 7, 5, 1, 1, 3, 4, 2, 6, 1};
+		ArrayList<Integer> b = new ArrayList<Integer>();
+		for (int i = 0; i < b2.length; i++) {
+			b.add(b2[i]);
+		}
+		testCasEstConnuePerdante(b, false);
+	}
+
+	/**
+	 * Test a case of estConnuePerdante()
+	 * @param jeu game board
+	 * @param result expected result
+	 */
+	void testCasEstConnuePerdante(ArrayList<Integer> jeu, boolean result) {
+		System.out.print("estConnuePerdante(" + jeu + ") \t= " + result + "\t ");
+		boolean resExec = estConnuePerdante(jeu);
+		if (resExec == result) {
+			System.out.println("\u001B[32mOK\u001B[0m");
+		} else {
+			System.err.println("\u001B[31mERREUR\u001B[0m");
+		}
 	}
 }

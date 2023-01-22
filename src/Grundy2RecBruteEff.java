@@ -465,7 +465,7 @@ class Grundy2RecBruteEff {
 		if (pareil){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -561,7 +561,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -627,7 +627,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -686,7 +686,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -781,7 +781,7 @@ class Grundy2RecBruteEff {
 		if (resExec.equals(result)){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -832,7 +832,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -886,7 +886,7 @@ class Grundy2RecBruteEff {
 		if (resExec.equals(result)){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -951,7 +951,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -1020,7 +1020,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -1079,7 +1079,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -1127,7 +1127,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -1210,7 +1210,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -1275,7 +1275,7 @@ class Grundy2RecBruteEff {
 		if (resExec == result){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -1331,7 +1331,7 @@ class Grundy2RecBruteEff {
 		if ((resExec >= min) && (resExec <= max)){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
@@ -1390,7 +1390,7 @@ class Grundy2RecBruteEff {
 		if ((resExec >= min) && (resExec <= max)){
 			System.out.println("\u001B[32mOK\u001B[0m");
 		} else {
-			System.err.println("\u001B[31mOK\u001B[0m");
+			System.err.println("\u001B[31mERREUR\u001B[0m");
 		}
 	}
 
