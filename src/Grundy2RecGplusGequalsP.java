@@ -436,7 +436,7 @@ class Grundy2RecGplusGequalsP {
 		long t1, t2, diffT;
 		boolean coupGagnant = false;
 		
-		for (int i = 1; i <= 73; i++) {
+		for (int i = 1; i <= 49; i++) {
 			ArrayList<Integer> jeu = new ArrayList<Integer>();
 			jeu.add(n);
 			cpt = 0;
@@ -1646,7 +1646,7 @@ class Grundy2RecGplusGequalsP {
 		ArrayList<Integer> copie = normalise(jeu);
 		boolean ret = false;
 		int i = 0;
-	
+
 		while (!ret && i < jeu.size()) {
 			int j = i + 1;
 			while (!ret && j < jeu.size()) {
