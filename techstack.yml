@@ -1,11 +1,12 @@
 repo_name: EDM115/Grundy2
-report_id: fa9e65b0f8cf5790cb5cf199a2cfc521
+report_id: 7e0a3c221c3111d616ac0bbf2a3d0976
+version: 0.1
 repo_type: Public
-timestamp: '2023-12-14T12:17:55+00:00'
+timestamp: '2024-02-29T18:13:11+00:00'
 requested_by: EDM115
 provider: github
 branch: master
-detected_tools_count: 7
+detected_tools_count: 4
 tools:
 - name: CSS 3
   description: The latest evolution of the Cascading Style Sheets language
@@ -15,6 +16,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/6727/css.png
+  detection_source_url: https://github.com/EDM115/Grundy2
   detection_source: Repo Metadata
 - name: Java
   description: A concurrent, class-based, object-oriented, language specifically designed
@@ -25,6 +27,7 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/995/K85ZWV2F.png
+  detection_source_url: https://github.com/EDM115/Grundy2
   detection_source: Repo Metadata
 - name: JavaScript
   description: Lightweight, interpreted, object-oriented language with first-class
@@ -35,18 +38,8 @@ tools:
   category: Languages & Frameworks
   sub_category: Languages
   image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/EDM115/Grundy2
   detection_source: Repo Metadata
-- name: pgvector
-  description: Open-source vector similarity search for Postgres
-  website_url: https://github.com/pgvector/pgvector/
-  open_source: false
-  hosted_saas: false
-  category: Data Stores
-  sub_category: Database Tools
-  image_url: https://img.stackshare.io/service/109221/default_b888cdf5617d936aa6aacf130911906955508639.png
-  detection_source: ws/error.txt
-  last_updated_by: EDM115
-  last_updated_on: 2023-01-20 13:53:50.000000000 Z
 - name: Git
   description: Fast, scalable, distributed revision control system
   website_url: http://git-scm.com/
@@ -55,24 +48,5 @@ tools:
   category: Build, Test, Deploy
   sub_category: Version Control System
   image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/EDM115/Grundy2
   detection_source: Repo Metadata
-- name: HTML
-  description: Hypertext Markup Language for creating web pages.
-  website_url: http://
-  open_source: false
-  hosted_saas: false
-  image_url: https://img.stackshare.io/service/2270/no-img-open-source.png
-  detection_source: javaDoc/Grundy2RecBruteEff.html
-  last_updated_by: EDM115
-  last_updated_on: 2023-01-19 19:00:14.000000000 Z
-- name: LangChain
-  description: Build AI apps with LLMs through composability
-  website_url: https://github.com/hwchase17/langchain
-  open_source: true
-  hosted_saas: false
-  category: Communications
-  sub_category: Large Language Model Tools
-  image_url: https://img.stackshare.io/service/48790/default_5b6c6b73f1ff3775c85d2a1ba954cb87e30cbf13.jpg
-  detection_source: ws/error.txt
-  last_updated_by: EDM115
-  last_updated_on: 2023-01-20 13:53:50.000000000 Z
