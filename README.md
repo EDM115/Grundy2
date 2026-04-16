@@ -1,14 +1,14 @@
 # Grundy2
-Grundy Game, enhanced AI
+Grundy Game, enhanced AI, part 2  
+Multiple versions of the game, each trying to be better and smarter than the previous one.  
+Note : the AI is dumb (always removes one match).
 
 ## Usage
 ### Compilation
-In `ws`, type :
-```
-javac -d ../class ../src/{ClassName}.java
+```bash
+javac -d ./class ./{ClassName}.java
 ```
 ### Execution
-Still in `ws`, type :
-```
+```bash
 java Start {ClassName}
 ```
